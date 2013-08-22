@@ -23,6 +23,13 @@ $^1$ Institute of Cellular and Molecular Biology, Center for Computational Biolo
 $^2$ Graduate Program in Bioinformatics,University of California San Francisco, San Francisco, California, USA\\
 $^3$ California Institute for Quantitative Biosciences (QB3) and Department of Bioengineering and Therapeutic Science, University of California San Francisco, San Francisco, California, USA
 
+\bigskip
+
+\noindent
+{\color{red}Text in red: Eleisha, please work on this.}
+
+\noindent
+{\color{blue}Text in blue: Material Claus hasn't touched yet.}
 
 %Use \textbf{} to bold tetxt
 \begin{abstract}
@@ -43,9 +50,9 @@ There are many selective pressures that affect the rate at which protein sequenc
 It is well documented that protein structure has an influence on variability seen at sites \cite{Franzosa2009, Ramsey2011}. Computational protein design can be used develop and analyze protein structures allowing us to further our knowledge of the effects of protein structure on sequence evolution. In fact recent work using knowledge gained from computational design has resulted in the design of proteins that bind to an influenza virus \cite{Fleishman2011}. During design, protein sequences are optimized for stability \cite{Butterfoss2006, Das2008}. Protein stability has been shown to be an important selective force on proteins \cite{Drummond2008}. Therefore these optimized structures can be used to assess the constraints of structural stability on protein sequences. Comparing designed and natural proteins will allow us to understand how protein structure, and in particular, protein stability shape observed sequence patterns.
 }
 
-{\color{blue}
-In this paper, we assess the ability of designed proteins to re-capture natural sequence properties by directly measuring variability patterns and comparing them to observed patterns in natural proteins. We not only examine how similar site variability is but we also examine whether the relationships between site position and variability in natural proteins are maintained in designed proteins.  First we obtained a selection of natural proteins and used the design software, Rosetta (http://www.rosettacommons.org/), to design proteins that are structurally similar. We then measured site variability within the natural proteins and compared this variability to the variability within the designed proteins. We also compared the amino acid distributions at sites within natural proteins with that of sites in designed proteins. Lastly we compared how structure constrains sequence variability within both types of proteins (natural and designed). By directly measuring and comparing amino acid patterns of designed proteins with natural proteins, we can determine which properties in natural proteins designed proteins accurately capture. 
-}
+
+Here, we carried out a systematic comparison between alignments of natural sequences and the corresponding alignments of designed sequences, for several different design conditions. We considered two distinct data sets, one of whole protein structures and one of individual protein domains. We analyzed which design conditions produced sequence alignments that were most similar to natural sequence alignments. We also analyzed by which parameters designed proteins differed the most from natural sequences. Overall, we found that proteins designed with a flexible backbone and using an intermediate amount of backbone flexibility were the most similar to natural proteins. However, substantial differences between designed and natural proteins remained even under the most advantageous design conditions. In particular, designed proteins tended to have too many polar and too few hydrophobic residues in the core, and they also tended to have cores that were too variable and/or surfaces that were too conserved. These trends were exacerbated for longer proteins.
+
 
 \section{Methods}
 \label{Methods}
@@ -105,24 +112,30 @@ The previous analyses demonstrated that while designed proteins overall look sim
 
 We first plotted site variability against relative solvent accessibility (RSA, a dimensionless number from 0 to 1 measuring the relative solvent exposure of individual residues) for individual proteins. See Fig.~\ref{Entropy_vs_RSA_example} for one example. We generally found that site variability displayed a substantial spread even for sites of very similar RSA. At the same time, there was an overall trend for sites with higher RSA to be more variable than sites with lower RSA. This trend was generally stronger in flexible backbone designs than in fixed backbone designs (Fig.~\ref{Entropy_vs_RSA_example}).
 
-To analyze the relationship between site variability and RSA more systematically, we calculated the correlation between these two quantities for all proteins (Figs.~\ref{Correlation_figure} and~\ref{Correlation_figure_Noah}). On average, natural sequence alignments showed a higher correlation than alignments of designed sequences, regardless of design method. Intermediate design temperatures showed the highest correlations. Curiously, though, the temperatures at which correlations were most similar to those found in natural sequences were lower than the temperatures at which sequence variability matched natural sequences most closely (compare e.g.\ Fig.~\ref{MeanEntropyComparison} and Fig.~\ref{Correlation_figure}). We also investigated whether the designed proteins with the highest correlations corresponded to the natural proteins with the highest correlations, and found this generally to be the case (Figs.~\ref{Correlation_figure}B and~\ref{Correlation_figure_Noah}B).
+To analyze the relationship between site variability and RSA more systematically, we calculated the correlation between these two quantities for all proteins (Figs.~\ref{Correlation_figure} and~\ref{Correlation_figure_Noah}). On average, natural sequence alignments showed a higher correlation than alignments of designed sequences, regardless of design method. Intermediate design temperatures showed the highest correlations, {\color{red}but correlations were nevertheless significantly lower in designed proteins than in natural proteins (paird $t$ test, $P=\dots$ [$T=0.3$, yeast proteins] and $P=\dots$ [$T=0.3$, protein domains] \emph{the test may not be significant for protein domains. If it is not we need to rephrase.} )}. Curiously, the temperatures at which correlations were most similar to those found in natural sequences were lower than the temperatures at which sequence variability matched natural sequences most closely (compare e.g.\ Fig.~\ref{MeanEntropyComparison} and Fig.~\ref{Correlation_figure}). We also investigated whether the designed proteins with the highest correlations corresponded to the natural proteins with the highest correlations, and found this generally to be the case (Figs.~\ref{Correlation_figure}B and~\ref{Correlation_figure_Noah}B).
 
-{\color{blue}
-Overall the designed proteins have a lower correlation between RSA and entropy.  In general, the fixed backbone treatment resulted in a lower correlation between entropy and RSA at sites suggesting there were not enough substitutions made on the surface.  This applied to both fixed backbone methods. Among the designed proteins, intermediate temperatures had a higher correlation between entropy and RSA at sites. For example in the dataset comprised of 40 proteins, temperatures of 0.03, 0.1, 0.3 the median correlation was approximately 0.20, the highest of any of the designed. As the backbone became more flexible more amino acid substitutions were allowed in general - core or surface. In fact, as the temperature increased past 0.9 for some sites we observed a negative correlation between RSA and entropy.  This resulting lower correlation between RSA and entropy suggests there were more substitutions that were allowed within the core of the protein. Therefore within natural proteins there was a stronger correlation between structure and site variability.  To test this, we calculated the correlation between RSA and correlation between sites using different temperature values in an attempt to recover the correlation seen in natural proteins. For this analysis, we used a lower temperature (0.3) for buried sites and a higher temperature (0.6 and 0.9) for surface sites. These temperatures were chosen because these temperatures mostly closely replicated the site variability seen in buried and surface sites. During this analysis, we found that when different temperatures are used for the buried and surface sites are used, the correlation between RSA and entropy at sites is similar to that seen in natural proteins (Figs.~\ref{Mixed_RSA_Entropy_Duncan} and~\ref{Mixed_RSA_Entropy_Noah}). This means that surface sites and buried sites have two different optimal design temperatures for replicating site variability seen in natural sites. 
+Our finding that correlations between site entropy and RSA are lower in designed proteins than in natural proteins indicates that, in designed proteins, site variability is too uniform across different solvent exposure states. In short, designed proteins are either too variable in the core or too conserved on the surface. To obtain a clearer picture of how exactly designed proteins differed from natural proteins, we once more considered the distributions of mean site entropies, but now calculated separately for buried sites ($\text{RSA}\leq0.05$), for partially buried sites ($0.05<\text{RSA}\leq0.25$), and for exposed sites ($\text{RSA}>0.25$). Figure~\ref{Mean_Entropy_Surface_Core} shows the medians of these distributions. For designed proteins, the mean site variabilities of exposed and of partially buried sites are virtually identical, while the mean site variabilities of buried sites are generally consistently lower. By contrast, in natural sequences exposed sites show much more variability than partially buried sites.
+
+If buried sites are too variable or exposed sites too conserved in designed proteins, we reasoned that hybrid designs, in which buried sites were taken from sequences designed at a lower temperatuer and exposed sites from sequences designed at a higher temperature, should display correlations more similar to those seen in natural proteins. According to Fig.~\ref{Mean_Entropy_Surface_Core}, buried and partially buried sites in designed proteins had site variability most similar to that of natural sequences at a design temperature of $T=0.3$ (yeast proteins) and $T=0.6$ (protein domains), whereas exposed sites in designed proteins had site variability most similar to that of natural sequences at a design temperature of $T=0.6$ to 0.9 (yeast proteins) and $T=1.2$ to 1.8 (protein domains). {\color{red}\emph{[$\leftarrow$ Eleisha, please choose temperatures that match these statements for Fig.~\ref{Mixed_RSA_Entropy}.]}} We thus built our hybrid designs by combining sites from these temperatures. We found that indeed, the site-entropy--RSA correlation in hybrid designs was nearly indentical to that in natural sequences (Fig.~\ref{Mixed_RSA_Entropy}). {\color{blue}\emph{I want to see the revised results before I can finish this paragraph.}}
 
 
-
-In order to examine whether there was a difference in the mean entropy of sites in the core of the protein and those on the surface we calculated the mean entropy for sites according to how buried they were. Sites were classified as either buried, partially buried, and or exposed if they had an RSA value of less than 0.05, a value between 0.05 and 0.25 inclusive, and a value greater than 0.25 respectively. Both buried and partially buried sites exhibited trends similar to those observed when you compare the mean values of all sites. For example, for buried residues within the first dataset of 38 whole proteins, a temperature of 0.6 is optimal. However, within these same proteins, surface sites have a optimal temperature of 0.9 (Figure \ref{Duncan_Position_Entropy}). Therefore in order to capture the site variability that is seen at surface sites, one has to design proteins with a more flexible backbone compared to that used for buried sites if you want to recover the site variability seen in natural proteins. 
-}
 
 
 \section{Discussion}
 
-{\color{blue}
-We designed a series of proteins from 38 natural yeast proteins. These designed proteins were used to create a series of alignments that we compared to natural alignments. These natural alignments were created using sequences that were homologous to the natural proteins used in the designed process.  We compared site variability as measured by entropy between the designed and natural proteins. Proteins that were designed with a backbone with intermediate flexibility exhibited site variability similar to sites within natural proteins. In addition, these proteins also had amino acid distributions at sites that are most similar in shape to sites within natural proteins. This suggests that not only do these proteins exhibit appropriate levels of site variability but they also more are accurate at using similar types of amino acids at those sites.  Lastly we used relative solvent accessibility to determine the effects of protein structure on site variability patterns in natural proteins. After measuring the effects of protein structure in natural proteins, we compared this effect to that of protein structure on designed proteins. 
+We have compared site variability and amino-acid distributions in designed and natural proteins, for two distinct data sets. One data set consisted of 38 yeast proteins, and the other consisted of 40 protein domains. Structures in the yeast-proteins data set were, on average, much larger than structures in the protein-domain data set, while alignments of natural sequences in the protein-domain data set were somewhat more variable than those in the yeast-proteins data set. We have found that proteins designed with a flexible backbone, using an intermediate design temperature ($T\sim0.3$ to 0.9), were overall the most similar to natural proteins. Overall amino-acid frequencies in designed proteins were similar, though not identical, to those in natural proteins. However, amino-acid frequencies at individual sites showed substantial deviations. Finally, we have found that site variabilities in designed proteins is too uniform across different solvent exposure states of residues. Designed proteins have either cores that are too variable or surfaces that are too conserved.
 
-Designed proteins appear to do a less accurate job at capturing the type of constraints that structure has on amino acid patterns at sites within natural proteins. According to our analysis, natural proteins had a much higher correlation between RSA and site variability. In natural proteins site variability is more strongly influenced by the site's position within the protein. In these proteins there is a much greater difference between the variability experienced by proteins on the surface of the protein and the variability experienced by sites with the proteins core. Designed proteins do not capture this difference.  Our results could help improve current software capabilities. The inability of Rosetta to accurately capture site variability differences between the core and the surface point to the need for improvements in determining scoring whether substitution should be made at a site. Improvements in the scoring functions of substitutions might lead to more accurately designed proteins in the future.
+{
+\color{red}Write one paragraph on each of these topics to build out the discussion:
+\begin{itemize}
+\item Discuss this paper in relation to prior work on protein design. What variables have been used to assess design accuracy in the past? Also discuss in relation to Noah's paper.
+\item Discuss the difference between the two data sets.
+\item Explain that we don't expect perfect agreement. Designed proteins are only optimized for stability, natural proteins experience a number of different selection pressures.
+\item Discuss potential future modifications to the design algorithm.
+\item Summary and final concluding sentences.
+\end{itemize}
 }
+
 
 \bibliographystyle{plain} %"style
 \bibliography{ProjectBib} %expected file "my refs.bib"
@@ -133,7 +146,7 @@ Designed proteins appear to do a less accurate job at capturing the type of cons
 
 \begin{figure}[H]
 \centerline{\includegraphics[width = 3in]{figures/Mean_Entropy_vs_Temp_Boxplot.png}\includegraphics[width = 3in]{figures/Mean_Entropy_vs_Temp_Boxplot_Noah.png}}
-\caption{Mean site entropy for designed and natural proteins. Each boxplot represents the distribution of mean site entropies within the respective dataset (left: yeast proteins; right: protein domains). ``FB'' refers to fixed-backbone design. Temperature values refer to the design temperature used during the Backrub design method. ``NS'' refers to natural sequences. ``Soft'' refers to the Soft design method. We find generally that more flexible backbones during desing allow for more site variability. Intermediate temperatures (0.6-0.9) produce site variabilities most similar to those seen in natural sequences. Overall, natural sequences in the protein-domains data set are more variable than are those in the yeast-proteins data set. {\color{red}The two figures need to be combined into one, labeled with "A" and "B", and put on the same $y$ scale.}}
+\caption{Mean site entropy for designed and natural proteins. Each boxplot represents the distribution of mean site entropies within the respective dataset (left: yeast proteins; right: protein domains). ``FB'' refers to fixed-backbone design. Temperature values refer to the design temperature used during the Backrub design method. ``NS'' refers to natural sequences. ``Soft'' refers to the Soft design method. We find generally that more flexible backbones during desing allow for more site variability. Intermediate temperatures (0.6-0.9) produce site variabilities most similar to those seen in natural sequences. Overall, natural sequences in the protein-domains data set are more variable than are those in the yeast-proteins data set. {\color{red}\emph{The two figures need to be combined into one, labeled with "A" and "B", and put on the same $y$ scale.}}}
 \label{MeanEntropyComparison}
 \end{figure}
 
@@ -151,26 +164,26 @@ Designed proteins appear to do a less accurate job at capturing the type of cons
 \label{AADisFig1}
 \end{figure}
 
-\begin{figure}[H]
-\centerline{\includegraphics[width = 6.5in]{figures/RSA_vs_Entropy_1PV1_Combination_Plot.png}}
-\caption{Site entropy versus Relative Solvent Accessibility (RSA) for designed and natural sequence alignments of the protein S-formylglutathione hydrolase (PDB: 1PV1, chain A). {\color{blue}$\longrightarrow$ Methods? RSA values are calculated from the published PDB structure.} Natural sequences exhibit a clear trend of higher site variability at higher RSA values. The flexible backbone designs exhibit a similar trend but the fixed backbone designs do not.}
-\label{Entropy_vs_RSA_example}
-\end{figure}
-
 
 \begin{figure}[H]
 \centerline{\includegraphics[width = 6in]{figures/Cor_Mean_Entropy_RSA_Combination_Plot.png}}
-\caption{Distributions of correlation coefficients between site entropy and RSA, for the yeast-proteins data set. ``FB'' indicates fixed-backbone design, and ``NS'' indicates natural sequences. (A) Distributions represented as boxplots. (B) Correlation coefficients for individual proteins. Lines connect identical structures in the different design conditions. The color shading represents the strength of the correlation for the natural sequence alignment. In general, natural proteins display a stronger correlation between site entropy and RSA than designed proteins. {\color{red}The x-axis in part B should be identical to the one in part A.}}
+\caption{Distributions of correlation coefficients between site entropy and RSA, for the yeast-proteins data set. ``FB'' indicates fixed-backbone design, and ``NS'' indicates natural sequences. (A) Distributions represented as boxplots. (B) Correlation coefficients for individual proteins. Lines connect identical structures in the different design conditions. The color shading represents the strength of the correlation for the natural sequence alignment. In general, natural proteins display a stronger correlation between site entropy and RSA than designed proteins. {\color{red}\emph{The x-axis in part B should be identical to the one in part A.}}}
 \label{Correlation_figure}
 \end{figure}
 
 
 \begin{figure}[H]
 \centerline{\includegraphics[width = 3in]{figures/Mean_Entropy_Position_Lineplot.png}\includegraphics[width = 3in]{figures/Mean_Entropy_Position_Lineplot_Noah.png}}
-\caption{Median of mean sequence entropy for designed and natural sequences, calculated separately for buried, partially buried, and exposed residues (left: yeast proteins; right: protein domains). We defined buried sites as those with $\text{RSA}\leq 0.05$, partially buried as those with $0.05<\text{RSA}\leq0.25$, and exposed as those with $\text{RSA}>0.25$. {\color{red}The two figures need to be combined into one, labeled with ``A'' and ``B'', and put on the same $y$ scale.}}
+\caption{Median of the distribution of mean sequence entropies for designed and natural sequences, calculated separately for buried, partially buried, and exposed residues (left: yeast proteins; right: protein domains). We defined buried sites as those with $\text{RSA}\leq 0.05$, partially buried as those with $0.05<\text{RSA}\leq0.25$, and exposed as those with $\text{RSA}>0.25$. Connecting lines are meant as a guide to the eye. Note the difference in the $x$-axis scales between the two graphs. {\color{red}\emph{The two figures need to be combined into one, labeled with ``A'' and ``B'', and put on the same $y$ scale.}}}
 \label{Mean_Entropy_Surface_Core}
 \end{figure}
 
+
+\begin{figure}[H]
+\centerline{\includegraphics[width = 3in]{figures/Duncan_Mixed_Temp_Correlation_Plot.png}\includegraphics[width = 3in]{figures/Noah_Mixed_Temp_Correlation_Plot.png}}
+\caption{Distribution of correlation coefficients between RSA and site entropy for hybrid designs and for natural proteins. For the hybrid designs, {\color{red}(fix this) buried sites were taken from sequences designed at one temperature, and partially buried and exposed sites were taken from sequences designed at a different temperature.} For the hybrid designs, the correlation coefficients were similar to those of natural sequences ({\color{red}paired $t$ test, $P=\dots$ and $P=\dots$ [yeast proteins], $P=\dots$ and $P=\dots$ [protein domains]}). {\color{red}\emph{The two figures need to be combined into one, labeled with ``A'' and ``B'', and put on the same $y$ scale. Also, can you make a version of this figure that looks like Fig. 4B? And finally, we'll have to talk about $x$ axis labeling.}}}
+\label{Mixed_RSA_Entropy}
+\end{figure}
 
 
 \cleardoublepage
@@ -183,113 +196,29 @@ Designed proteins appear to do a less accurate job at capturing the type of cons
 
 \customlabel{AAFreqsProteinDomains}{S1}
 
+\newpage
+
 \centerline{\includegraphics[width = 6in]{figures/Mean_KL_vs_Temp_Boxplot_Noah.png}}
 \noindent Figure S2. Mean Kullback-Leibler (KL) divergence for designed and natural proteins, shown for the yeast-proteins data set. A higher KL divergence indicates that the amino-acid distributions at sites in designed proteins are less similar to the corresponding distributions in the natural proteins. ``FB'' refers to fixed backbone design, and ``NS'' refers to the control case where natural sequences are compared to themselves. (A) KL divergence calculated from the relative frequencies of the 20 amino acids. (B) KL divergence calculated from rank-ordered frequency distributions. The most common amino aicd in the reference distribution is compared to the most common amino acid in the focal distribution, the same is done for the second-most common amino acid, and so on, irrespective of the type of amino acids.
 
 \customlabel{NoahAADisFig1}{S2}
 
+\newpage
+
+
+\centerline{\includegraphics[width = 6.5in]{figures/RSA_vs_Entropy_1PV1_Combination_Plot.png}}
+
+\noindent Figure S3. Site entropy versus Relative Solvent Accessibility (RSA) for designed and natural sequence alignments of the protein S-formylglutathione hydrolase (PDB: 1PV1, chain A). {\color{blue}\emph{[Methods?$\rightarrow$ ]} RSA values are calculated from the published PDB structure.} Natural sequences exhibit a clear trend of higher site variability at higher RSA values. The flexible backbone designs exhibit a similar trend but the fixed backbone designs do not.
+\customlabel{Entropy_vs_RSA_example}{S3}
+
+\newpage
+
 \centerline{\includegraphics[width = 6in]{figures/Cor_Mean_Entropy_RSA_Combination_Plot_Noah.png}}
-\noindent Figure S3. Distributions of correlation coefficients between site entropy and RSA, for the yeast-proteins data set. ``FB'' indicates fixed-backbone design, ``Soft'' indicates soft backbone design, and ``NS'' indicates natural sequences. (A) Distributions represented as boxplots. (B) Correlation coefficients for individual proteins. Lines connect identical structures in the different design conditions. The color shading represents the strength of the correlation for the natural sequence alignment. In general, natural proteins display a stronger correlation between site entropy and RSA than designed proteins.
+\noindent Figure S4. Distributions of correlation coefficients between site entropy and RSA, for the yeast-proteins data set. ``FB'' indicates fixed-backbone design, ``Soft'' indicates soft backbone design, and ``NS'' indicates natural sequences. (A) Distributions represented as boxplots. (B) Correlation coefficients for individual proteins. Lines connect identical structures in the different design conditions. The color shading represents the strength of the correlation for the natural sequence alignment. In general, natural proteins display a stronger correlation between site entropy and RSA than designed proteins.
 
-\customlabel{Correlation_figure_Noah}{S3}
-
-
-\cleardoublepage
-
-\section{Other Figures}
+\customlabel{Correlation_figure_Noah}{S4}
 
 
-
-
-%Figure 25
-\begin{figure}[H]
-%\centering
-%\centerline{\includegraphics[width = 6in]{figures/Duncan_Mixed_Temp_Correlation_Plot.png}}
-\caption{Correlation between RSA and Entropy between entropy at sites for 38 proteins. For each site we classified the site as buried if it had an RSA of than 0.05. All sites not classified as buried are classified as exposed. For sites that were buried, we used the frequencies from the T = 0.3 designed proteins. For the exposed sites we used either the entropy values from T = 0.6 or T = 0.9. By using the different temperature values for each type of site, the correlation between RSA and entropy of sites with the mixed entropy values were to that of the natural proteins.}
-\label{Mixed_RSA_Entropy_Duncan}
-\end{figure}
-
-%Figure 25
-\begin{figure}[H]
-%\centering
-%\centerline{\includegraphics[width = 6in]{figures/Noah_Mixed_Temp_Correlation_Plot.png}}
-\caption{Correlation between RSA and Entropy between entropy at sites for 40 protein domains. For each site we classified the site as buried if it had an RSA of than 0.05. All sites not classified as buried are classified as exposed. For sites that were buried, we used the frequencies from the T = 0.3 designed proteins. For the exposed sites we used either the entropy values from T = 0.6 or T = 0.9. By using the different temperature values for each type of site, the correlation between RSA and entropy of sites with the mixed entropy values were to that of the natural proteins.}
-\label{Mixed_RSA_Entropy_Noah}
-\end{figure}
-
-%Figure 5
-\begin{figure}[H]
-\centering
-%\centerline{\includegraphics[width = 6in]{figures/Slope_Combination_Plot.png}}
-\caption{Slopes calculated for 38 proteins. The slopes are calculated by fitting a linear function $\lambda=a\text{RSA}+b$ to these yeast proteins.  A) A plot of slope vs mean site entropy for 38 proteins. B) Intercepts vs Slopes for 38 proteins. Designed proteins have nonnegative slopes in contrast to the negative slope values found for natural proteins.  Natural proteins on average have a negative slope and a larger intercept when compared to designed proteins. Designed proteins on average have less negative slopes compared to natural proteins.}
-\label{StructureFig3}
-\end{figure}
-
-
-
-%Figure 17
-\begin{figure}[H]
-\centering
-%\centerline{\includegraphics[width = 6in]{figures/Slope_Combination_Plot_Noah.png}}
-\caption{Slopes calculated for 40 protein domains. The slopes are calculated by fitting a linear function $\lambda=a\text{RSA}+b$ to these yeast proteins.  A) A plot of slope vs mean site entropy for 40 protein domains. B) Intercepts vs Slopes for 40 protein domains. Designed proteins have nonnegative slopes in contrast to the negative slope values found for natural proteins.  Natural proteins on average have a negative slope and a larger intercept when compared to designed proteins.}
-\label{NoahStructureFig3}
-\end{figure}
-
-
-%Figure 2
-\begin{figure}[H]
-\centering
-%\centerline{\includegraphics[width = 6.5in]{figures/RSA_vs_Entropy_1PV1_Combination_Plot.png}}
-\caption{Entropy vs Relative Solvent Accessibility (RSA) for sites within the protein S - formylglutathione hydrolase (PDB: 1PV1, chain A). All RSA values are calculated from natural proteins. For most sites within the alignments created from the fixed backbone the entropy values are lower than they are in the natural proteins.  For designed proteins sites with backbone flexibility usually underestimate or overestimate entropy.}
-\label{SiteVarFig2}
-\end{figure}
-
-%Figure 14
-\begin{figure}[H]
-%\centerline{\includegraphics[width = 6.5in]{figures/RSA_vs_Entropy_2H3L_Combination_Plot_Noah.png}}
-\caption{Entropy vs Relative Solvent Accessibility (RSA) for sites within the protein S - formylglutathione hydrolase (PDB: 2H3L, chain A). All RSA values are calculated from natural proteins. For most sites within the alignments created from the fixed backbone the entropy values are lower than they are in the natural proteins.}
-\label{Entropy_Sites_Noah}
-\end{figure}
-
-
-%Figure 16
-\begin{figure}[H]
-%\centerline{\includegraphics[width = 6in]{figures/Cor_Mean_Entropy_RSA_Combination_Plot_Noah.png}}
-\caption{Correlation between Entropy and RSA for sites within proteins.  The temperatures represent alignments of designed proteins where an increased temperature relates to an increase level of backbone flexibility during the design process. A) Boxplots of the correlation between RSA and site entropy for various protein alignments. B) Lineplots of the correlation between RSA and site entropy for various protein alignments. The colors correspond to the value of the strength of the correlation between entropy and RSA at sites. }
-\label{NoahStructureFig1}
-\end{figure}
-
-%Figure 21
-\begin{figure}[H]
-%\centering
-%\centerline{\includegraphics[width = 6in]{figures/Mean_Entropy_vs_Temp_Boxplot_Noah.png}}
-\caption{Mean Entropy versus Temperature for sites within a series of designed proteins. The temperature refers to the temperature used during the designed process. Higher temperatures allowed for more backbone flexibility. FB and NS refer to the fixed backbone designed proteins and natural proteins respectively.  A site is categorized a buried site if it has an RSA of less than 0.05.}
-\label{Mean_Entropy_Noah}
-\end{figure}
-
-%Figure 21
-\begin{figure}[H]
-%\centering
-%\centerline{\includegraphics[width = 6in]{figures/Mean_Entropy_vs_Temp_Buried_Boxplot_Noah.png}}
-\caption{Mean Entropy versus Temperature for buried sites within a series of designed proteins. The temperature refers to the temperature used during the designed process. Higher temperatures allowed for more backbone flexibility. FB and NS refer to the fixed backbone designed proteins and natural proteins respectively.  A site is categorized a buried site if it has an RSA of less than 0.05.}
-\label{Buried_Entropy_Noah}
-\end{figure}
-
-%Figure 22
-\begin{figure}[H]
-%\centering
-%\centerline{\includegraphics[width = 6in]{figures/Mean_Entropy_vs_Temp_Intermediate_Boxplot_Noah.png}}
-\caption{Mean Entropy versus Temperature for partially buried sites within a series of designed proteins. The temperature refers to the temperature used during the designed process. Higher temperatures allowed for more backbone flexibility. A site is categorized as a partially buried site if it has a RSA of greater than or equal to 0.05 and less than or equal to 0.25. FB and NS refer to the fixed backbone designed proteins and natural proteins respectively.}
-\label{Inter_Entropy_Noah}
-\end{figure}
-
-%Figure 23
-\begin{figure}[H]
-%\centering
-%\centerline{\includegraphics[width = 6in]{figures/Mean_Entropy_vs_Temp_Surface_Boxplot_Noah.png}}
-\caption{Mean Entropy versus Temperature for exposed sites within series of 40 designed protein domains. The temperature refers to the temperature used during the designed process. Higher temperatures allowed for more backbone flexibility. A site is categorized as a surface site if it has a RSA of greater than 0.25. FB and NS refer to the fixed backbone designed proteins and natural proteins respectively.}
-\label{Surface_Entropy_Noah}
-\end{figure}
 
 
 \end{document}
