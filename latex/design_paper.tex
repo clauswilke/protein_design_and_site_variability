@@ -59,20 +59,15 @@ Here, we carried out a systematic comparison between alignments of natural seque
 
 \subsection{Data sets}
 
-We analyzed two data sets, one of whole yeast proteins and one of protein domains. The yeast-proteins data set was taken from Ref.\ \cite{Ramsey2011} and comprised 38 protein structures homologous to an open reading frame in \emph{Saccharomyces cerevisiae}. For each of those structures, we had at least 50 homologous natural sequences, also taken from Ref.\ \cite{Ramsey2011}. The protein-domain data set was taken from Ref.\ \cite{OllikainenKortemme} and comprised 40 protein domains {\color{red} a little more detail here}. For each of these protein domains, we obtained alignments of homologous natural sequences from the Pfam database \cite{Pfam}, as described \cite{OllikainenKortemme}.
-
+We analyzed two data sets, one of whole yeast proteins and one of protein domains. The yeast-proteins data set was taken from Ref.\ \cite{Ramsey2011} and comprised 38 protein structures homologous to an open reading frame in \emph{Saccharomyces cerevisiae}. For each of those structures, we had at least 50 homologous natural sequences, also taken from Ref.\ \cite{Ramsey2011}. The protein-domain data set was taken from Ref.\ \cite{OllikainenKortemme} and comprised 40 protein domains {\color{red} a little more detail here. Domains were chosens that have at least one crystal structure in the Protein Database (PDB) and at lest 500 sequences in the Pfam Database. When selecting domains, domains were chosen to represent several different protein folds. Domains were also were restrained such they were less than or equal to 150 amino acids in length.}  For each of these protein domains, we obtained alignments of homologous natural sequences from the Pfam database \cite{Pfam}, as described \cite{OllikainenKortemme}.  
 
 \subsection{Protein design}
 
-For each structure in both data sets, we computationally designed 500 variants each, using multiple design methods. All design methods we used are implemented in the protein-design software Rosetta \cite{generic-rosetta-reference}. First, we used standard fixed-backbone design \cite{fixed-design}. In this method, the protein backbone remains fixed and only amino-acid side chains are allowed to move. Second, we used the flexible-backbone method Backrub \cite{Smith2008}, which first generates an ensemble of alternative backbones and then designs side chains onto these backbones. The Backrub method takes as input a temperature parameter that determines the extent of backbone movements that occur during design. A temperature of zero corresponds to the fixed-backbone case while a temperature in excess of 1 allows substantial backbone movements. Here, we used temperatures spanning from 0.03 to 2.4. For the protein-domain data set, we also carried out one additional design method, called ``Soft''. In this method, {\color{red}which is more similar to a fixed-design method but allows for minor backbone movements, \textbf{(correct?)}} the energy function used during sequence design dampens the weight of the repulsive Lennard-Jones (LJ) potential term. {\color{red}Do we have a reference for the ``soft'' design method?}
-
-{\color{red}Is the following sentence correct? ``We used MUSCLE \cite{Edgar2004} to align our designed sequences.'' Aligning designed sequences is wrong, and they should be automatically aligned anyway.}
-
-Protein designs for the protein-domain data set have been previously published \cite{OllikainenKortemme}, while the designs for the yeast-proteins data set where newly generated for the present study.
+For each structure in both data sets, we computationally designed 500 variants each, using multiple design methods. All design methods we used are implemented in the protein-design software Rosetta \cite{generic-rosetta-reference}. First, we used standard fixed-backbone design \cite{fixed-design}. In this method, the protein backbone remains fixed and only amino-acid side chains are allowed to move. Second, we used the flexible-backbone method Backrub \cite{Smith2008}, which first generates an ensemble of alternative backbones and then designs side chains onto these backbones. The Backrub method takes as input a temperature parameter that determines the extent of backbone movements that occur during design. A temperature of zero corresponds to the fixed-backbone case while a temperature in excess of 1 allows substantial backbone movements. Here, we used temperatures spanning from 0.03 to 2.4. For the protein-domain data set, we also carried out one additional design method, called ``Soft''. In this method which is similar to the fixed backbone method but the energy function used during sequence design dampens the weight of the repulsive Lennard-Jones (LJ) potential term \cite{OllikainenKortemme}. It is really not a new method. Protein designs for the protein-domain data set have been previously published \cite{OllikainenKortemme}, while the designs for the yeast-proteins data set were newly generated for the present study.
 
 \subsection{Data analysis}
 
-We quantified the variability of sites in amino-acid alignments using site entropy $H_i$, defined as $H_i=\sum_{j}p_{ij}\ln p_{ij}$. Here, $p_{ij}$ is frequency of amino acid $j$ in alignment column $i$, and the sum runs over all amino acids. {\color{red}Did we do a correction for zero counts? Maybe we should not.}
+We quantified the variability of sites in amino-acid alignments using site entropy $H_i$, defined as $H_i=\sum_{j}p_{ij}\ln p_{ij}$. Here, $p_{ij}$ is frequency of amino acid $j$ in alignment column $i$, and the sum runs over all amino acids. {\color{red} We did correct for zero counts. Did we do a correction for zero counts? Maybe we should not. Check the THIS!!!}
 
 We compared amino-acid distributions of designed sequences to those of natural sequences using the Kullback-Leibler (KL) divergence. The KL divergence $D^\text{KL}_i$ is defined as $D^\text{KL}_i= \sum_j  p_{ij} \ln  (p_{ij}/q_{ij})$, where $q_{ij}$ is the frequency of amino acid $j$ in column $i$ of the reference alignment, and $p_{ij}$ is the corresponding frequency in the alignment that is being compared to the reference alignment. The sum runs over all amino acids. The KL divergence is inherently an asymmetric distance measure, comparing a probability distribution of interest to a reference distribution. Unless noted otherwise, we always used natural sequence alignments to calculate the reference frequencies $q_{ij}$ and designed sequence alignments to calculate the frequencies $p_{ij}$. Throughout this work, we calculated $D^\text{KL}_i$ separately at each site $i$ in a protein, and then averaged the $D^\text{KL}_i$ values for all sites in a protein to obtain a mean KL divergence for that protein.
 
@@ -82,7 +77,7 @@ We calculated Relative Solvent Accessibility (RSA) of residues by first calculat
 \label{Results}
 
 
-We wanted to assess the extent to which the sequence space of computationally designed proteins overlaps with the sequence space occupied by homologous natural proteins. Our general approach was to compare alignments of designed protein sequences to alignments of homologous natural sequences, for approximately 80 distinct protein structures. For each structure, we considered several different design methods (see Methods for details), and we designed 500 {\color{red}(Is this correct for Noah's data set?)} sequences for each structure and method. The protein structures we considered were subdivided into two distinct data sets, a data set of 38 yeast protein structures previously analyzed in Ref.\ \cite{Ramsey2011} and a data set of 40 protein domains previously analyzed in  Ref.\ \cite{OllikainenKortemme}. Throughout this study, we analyzed these two data sets separately, because they corresponded to structures of substantially different sizes. The mean number of amino acids per structure was 215.4 in the yeast-proteins data set and 86.1 in the protein-domains data set.
+We wanted to assess the extent to which the sequence space of computationally designed proteins overlaps with the sequence space occupied by homologous natural proteins. Our general approach was to compare alignments of designed protein sequences to alignments of homologous natural sequences, for approximately 80 distinct protein structures. For each structure, we considered several different design methods (see Methods for details), and we designed 500 sequences for each structure and method. The protein structures we considered were subdivided into two distinct data sets, a data set of 38 yeast protein structures previously analyzed in Ref.\ \cite{Ramsey2011} and a data set of 40 protein domains previously analyzed in  Ref.\ \cite{OllikainenKortemme}. Throughout this study, we analyzed these two data sets separately, because they corresponded to structures of substantially different sizes. The mean number of amino acids per structure was 215.4 in the yeast-proteins data set and 86.1 in the protein-domains data set.
 
 \subsection{Overall site variability}
 \label{SiteVariability}
@@ -90,8 +85,6 @@ We wanted to assess the extent to which the sequence space of computationally de
 We first compared overall amino-acid variability in designed and natural proteins. We assessed amino-acid variability at individual sites by calculating the entropy $H_i$ at each site $i$ in alignments of either designed or natural proteins. We then calculated the mean entropy over all sites in each alignment and used that quantitiy as a measure of the overall amino-acid variability in the alignment.
 
 We found that protein design using a fixed backbone generally yielded insufficient site variability compared to natural sequences (Fig.~\ref{MeanEntropyComparison}). The most variable proteins under fixed-backbone design showed only about as much variability as the least variable natural proteins. Overall, there was a significant shift towards higher variability in natural proteins relative to proteins designed with fixed backbone (paired $t$ test, {\color{red}$P=\dots$} for the yeast-proteins data set and {\color{red}$P=\dots$} for the protein-domain data set). When switching from fixed-backbone design to variable-backbone design, we found that overall site variability increased. Further, site variability increased monotonously with the degree of backbone flexibility allowed during design, as measured by the design temperature (Fig.~\ref{MeanEntropyComparison}). At the highest temperatures, site variability in designed proteins consistently exceeded that of natural proteins. Proteins designed at intermediate temperatures of 0.6-0.9 had site variability that mostly closely resembled that of natural proteins. However, at those temperatures, natural proteins generally showed a larger spread in variabilities than designed proteins did (Brown–Forsythe test for equal variances, {\color{red}$P=\dots$} for the yeast-proteins data set and {\color{red}$P=\dots$} for the protein-domain data set).
-
-
 
 \subsection{Amino-acid distributions}
 \label{AminoAcidDistributions}
@@ -145,8 +138,9 @@ We have compared site variability and amino-acid distributions in designed and n
 \section{Figures}
 
 \begin{figure}[H]
-\centerline{\includegraphics[width = 3in]{figures/Mean_Entropy_vs_Temp_Boxplot.png}\includegraphics[width = 3in]{figures/Mean_Entropy_vs_Temp_Boxplot_Noah.png}}
-\caption{Mean site entropy for designed and natural proteins. Each boxplot represents the distribution of mean site entropies within the respective dataset (left: yeast proteins; right: protein domains). ``FB'' refers to fixed-backbone design. Temperature values refer to the design temperature used during the Backrub design method. ``NS'' refers to natural sequences. ``Soft'' refers to the Soft design method. We find generally that more flexible backbones during desing allow for more site variability. Intermediate temperatures (0.6-0.9) produce site variabilities most similar to those seen in natural sequences. Overall, natural sequences in the protein-domains data set are more variable than are those in the yeast-proteins data set. {\color{red}\emph{The two figures need to be combined into one, labeled with "A" and "B", and put on the same $y$ scale.}}}
+%\centerline{\includegraphics[width = 3in]{figures/Mean_Entropy_vs_Temp_Boxplot.pdf}\includegraphics[width = 3in]{figures/Mean_Entropy_vs_Temp_Boxplot_Noah.pdf}}
+\centerline{\includegraphics[width = 6in]{figures/Mean_Entropy_vs_Temp_Combo_Boxplot.pdf}} %\includegraphics[width = 3in]{figures/Mean_Entropy_vs_Temp_Boxplot_Noah.pdf}}
+\caption{Mean site entropy for designed and natural proteins. Each boxplot represents the distribution of mean site entropies within the respective dataset (left: yeast proteins; right: protein domains). ``FB'' refers to fixed-backbone design. Temperature values refer to the design temperature used during the Backrub design method. ``NS'' refers to natural sequences. ``Soft'' refers to the Soft design method. We find generally that more flexible backbones during desing allow for more site variability. Intermediate temperatures (0.6-0.9) produce site variabilities most similar to those seen in natural sequences. Overall, natural sequences in the protein-domains data set are more variable than are those in the yeast-proteins data set.}
 \label{MeanEntropyComparison}
 \end{figure}
 
@@ -159,29 +153,31 @@ We have compared site variability and amino-acid distributions in designed and n
 
 
 \begin{figure}[H]
-\centerline{\includegraphics[width = 6in]{figures/Mean_KL_vs_Temp_Boxplot.png}}
+\centerline{\includegraphics[width = 6in]{figures/Mean_KL_vs_Temp_Boxplot.pdf}}
 \caption{Mean Kullback-Leibler (KL) divergence for designed and natural proteins, shown for the yeast-proteins data set. A higher KL divergence indicates that the amino-acid distributions at sites in designed proteins are less similar to the corresponding distributions in the natural proteins. ``FB'' refers to fixed backbone design, and ``NS'' refers to the control case where natural sequences are compared to themselves. (A) KL divergence calculated from the relative frequencies of the 20 amino acids. (B) KL divergence calculated from rank-ordered frequency distributions. The most common amino aicd in the reference distribution is compared to the most common amino acid in the focal distribution, the same is done for the second-most common amino acid, and so on, irrespective of the type of amino acids.}
 \label{AADisFig1}
 \end{figure}
 
 
 \begin{figure}[H]
-\centerline{\includegraphics[width = 6in]{figures/Cor_Mean_Entropy_RSA_Combination_Plot.png}}
-\caption{Distributions of correlation coefficients between site entropy and RSA, for the yeast-proteins data set. ``FB'' indicates fixed-backbone design, and ``NS'' indicates natural sequences. (A) Distributions represented as boxplots. (B) Correlation coefficients for individual proteins. Lines connect identical structures in the different design conditions. The color shading represents the strength of the correlation for the natural sequence alignment. In general, natural proteins display a stronger correlation between site entropy and RSA than designed proteins. {\color{red}\emph{The x-axis in part B should be identical to the one in part A.}}}
+\centerline{\includegraphics[width = 6in]{figures/Cor_Mean_Entropy_RSA_Combination_Plot.pdf}}
+\caption{Distributions of correlation coefficients between site entropy and RSA, for the yeast-proteins data set. ``FB'' indicates fixed-backbone design, and ``NS'' indicates natural sequences. (A) Distributions represented as boxplots. (B) Correlation coefficients for individual proteins. Lines connect identical structures in the different design conditions. The color shading represents the strength of the correlation for the natural sequence alignment. In general, natural proteins display a stronger correlation between site entropy and RSA than designed proteins.}
 \label{Correlation_figure}
 \end{figure}
 
 
 \begin{figure}[H]
-\centerline{\includegraphics[width = 3in]{figures/Mean_Entropy_Position_Lineplot.png}\includegraphics[width = 3in]{figures/Mean_Entropy_Position_Lineplot_Noah.png}}
-\caption{Median of the distribution of mean sequence entropies for designed and natural sequences, calculated separately for buried, partially buried, and exposed residues (left: yeast proteins; right: protein domains). We defined buried sites as those with $\text{RSA}\leq 0.05$, partially buried as those with $0.05<\text{RSA}\leq0.25$, and exposed as those with $\text{RSA}>0.25$. Connecting lines are meant as a guide to the eye. Note the difference in the $x$-axis scales between the two graphs. {\color{red}\emph{The two figures need to be combined into one, labeled with ``A'' and ``B'', and put on the same $y$ scale.}}}
+%\centerline{\includegraphics[width = 3in]{figures/Mean_Entropy_Position_Lineplot.pdf}\includegraphics[width = 3in]{figures/Mean_Entropy_Position_Lineplot_Noah.pdf}}
+\centerline{\includegraphics[width = 6in]{figures/Mean_Entropy_Position_Lineplot_Combo.pdf}}
+\caption{Median of the distribution of mean sequence entropies for designed and natural sequences, calculated separately for buried, partially buried, and exposed residues (left: yeast proteins; right: protein domains). We defined buried sites as those with $\text{RSA}\leq 0.05$, partially buried as those with $0.05<\text{RSA}\leq0.25$, and exposed as those with $\text{RSA}>0.25$. Connecting lines are meant as a guide to the eye. Note the difference in the $x$-axis scales between the two graphs.}
 \label{Mean_Entropy_Surface_Core}
 \end{figure}
 
 
 \begin{figure}[H]
-\centerline{\includegraphics[width = 3in]{figures/Duncan_Mixed_Temp_Correlation_Plot.png}\includegraphics[width = 3in]{figures/Noah_Mixed_Temp_Correlation_Plot.png}}
-\caption{Distribution of correlation coefficients between RSA and site entropy for hybrid designs and for natural proteins. For the hybrid designs, {\color{red}(fix this) buried sites were taken from sequences designed at one temperature, and partially buried and exposed sites were taken from sequences designed at a different temperature.} For the hybrid designs, the correlation coefficients were similar to those of natural sequences ({\color{red}paired $t$ test, $P=\dots$ and $P=\dots$ [yeast proteins], $P=\dots$ and $P=\dots$ [protein domains]}). {\color{red}\emph{The two figures need to be combined into one, labeled with ``A'' and ``B'', and put on the same $y$ scale. Also, can you make a version of this figure that looks like Fig. 4B? And finally, we'll have to talk about $x$ axis labeling.}}}
+%\centerline{\includegraphics[width = 3in]{figures/Duncan_Mixed_Temp_Correlation_Plot.pdf}\includegraphics[width = 3in]{figures/Noah_Mixed_Temp_Correlation_Plot.pdf}}
+\centerline{\includegraphics[width = 6in]{figures/Combo_Mixed_Temp_Correlation_Plot.pdf}}
+\caption{Distribution of correlation coefficients between RSA and site entropy for hybrid designs and for natural proteins. For the hybrid designs, buried sites were taken from sequences designed at one temperature, and partially buried and exposed sites were taken from sequences designed at a different temperature. For the hybrid designs, the correlation coefficients were similar to those of natural sequences ({\color{red}paired $t$ test, $P=\dots$ and $P=\dots$ [yeast proteins], $P=\dots$ and $P=\dots$ [protein domains]}). {\color{red}\emph{ Can you make a version of this figure that looks like Fig. 4B? And finally, we'll have to talk about $x$ axis labeling.}}}
 \label{Mixed_RSA_Entropy}
 \end{figure}
 
@@ -198,7 +194,7 @@ We have compared site variability and amino-acid distributions in designed and n
 
 \newpage
 
-\centerline{\includegraphics[width = 6in]{figures/Mean_KL_vs_Temp_Boxplot_Noah.png}}
+\centerline{\includegraphics[width = 6in]{figures/Mean_KL_vs_Temp_Boxplot_Noah.pdf}}
 \noindent Figure S2. Mean Kullback-Leibler (KL) divergence for designed and natural proteins, shown for the yeast-proteins data set. A higher KL divergence indicates that the amino-acid distributions at sites in designed proteins are less similar to the corresponding distributions in the natural proteins. ``FB'' refers to fixed backbone design, and ``NS'' refers to the control case where natural sequences are compared to themselves. (A) KL divergence calculated from the relative frequencies of the 20 amino acids. (B) KL divergence calculated from rank-ordered frequency distributions. The most common amino aicd in the reference distribution is compared to the most common amino acid in the focal distribution, the same is done for the second-most common amino acid, and so on, irrespective of the type of amino acids.
 
 \customlabel{NoahAADisFig1}{S2}
@@ -206,14 +202,14 @@ We have compared site variability and amino-acid distributions in designed and n
 \newpage
 
 
-\centerline{\includegraphics[width = 6.5in]{figures/RSA_vs_Entropy_1PV1_Combination_Plot.png}}
+\centerline{\includegraphics[width = 6.5in]{figures/RSA_vs_Entropy_1PV1_Combination_Plot.pdf}}
 
 \noindent Figure S3. Site entropy versus Relative Solvent Accessibility (RSA) for designed and natural sequence alignments of the protein S-formylglutathione hydrolase (PDB: 1PV1, chain A). {\color{blue}\emph{[Methods?$\rightarrow$ ]} RSA values are calculated from the published PDB structure.} Natural sequences exhibit a clear trend of higher site variability at higher RSA values. The flexible backbone designs exhibit a similar trend but the fixed backbone designs do not.
 \customlabel{Entropy_vs_RSA_example}{S3}
 
 \newpage
 
-\centerline{\includegraphics[width = 6in]{figures/Cor_Mean_Entropy_RSA_Combination_Plot_Noah.png}}
+\centerline{\includegraphics[width = 6in]{figures/Cor_Mean_Entropy_RSA_Combination_Plot_Noah.pdf}}
 \noindent Figure S4. Distributions of correlation coefficients between site entropy and RSA, for the yeast-proteins data set. ``FB'' indicates fixed-backbone design, ``Soft'' indicates soft backbone design, and ``NS'' indicates natural sequences. (A) Distributions represented as boxplots. (B) Correlation coefficients for individual proteins. Lines connect identical structures in the different design conditions. The color shading represents the strength of the correlation for the natural sequence alignment. In general, natural proteins display a stronger correlation between site entropy and RSA than designed proteins.
 
 \customlabel{Correlation_figure_Noah}{S4}
