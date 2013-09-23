@@ -1,0 +1,681 @@
+require("car")
+data = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data.csv")
+head(data)#
+#
+head(data$mean_entropy_temp_0.0)
+fixed_natural_ttest = t.test(data$mean_entropy_temp_0.0,  data$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest)
+BFData_06 = c(data$mean_entropy_temp_0.06,  data$mean_entropy_natural)#
+BFData_09 = c(data$mean_entropy_temp_0.09,  data$mean_entropy_natural)
+group_06 =  as.factor(c(rep(1, length(data$mean_entropy_temp_0.06)), rep(2, length(data$mean_entropy_natural))))#
+group_09 = as.factor(c(rep(1, length(data$mean_entropy_temp_0.06)), rep(2, length(data$mean_entropy_natural))))
+BF_06 = leveneTest(BF_Data_06, group_06, option = "trim.mean")
+BFData_06 = c(data$mean_entropy_temp_0.06,  data$mean_entropy_natural)#
+BFData_09 = c(data$mean_entropy_temp_0.09,  data$mean_entropy_natural)#
+group_06 =  as.factor(c(rep(1, length(data$mean_entropy_temp_0.06)), rep(2, length(data$mean_entropy_natural))))#
+group_09 = as.factor(c(rep(1, length(data$mean_entropy_temp_0.06)), rep(2, length(data$mean_entropy_natural))))#
+#
+BF_06 = leveneTest(BF_Data_06, group_06, option = "trim.mean")
+BFData_06 = c(data$mean_entropy_temp_0.06,  data$mean_entropy_natural)#
+BFData_09 = c(data$mean_entropy_temp_0.09,  data$mean_entropy_natural)#
+group_06 =  as.factor(c(rep(1, length(data$mean_entropy_temp_0.06)), rep(2, length(data$mean_entropy_natural))))#
+group_09 = as.factor(c(rep(1, length(data$mean_entropy_temp_0.06)), rep(2, length(data$mean_entropy_natural))))#
+#
+BF_06 = leveneTest(BFData_06, group_06, option = "trim.mean")
+?leveneTest
+BFData_06 = c(data$mean_entropy_temp_0.06,  data$mean_entropy_natural)#
+BFData_09 = c(data$mean_entropy_temp_0.09,  data$mean_entropy_natural)#
+group_06 =  as.factor(c(rep(1, length(data$mean_entropy_temp_0.06)), rep(2, length(data$mean_entropy_natural))))#
+group_09 = as.factor(c(rep(1, length(data$mean_entropy_temp_0.06)), rep(2, length(data$mean_entropy_natural))))#
+#
+BF_06 = leveneTest(BFData_06, group_06, center = median)
+?leveneTest
+data = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data.csv")
+head(data)
+BFData_06 = c(data$mean_entropy_temp_0.06,  data$mean_entropy_natural)
+group_06 =  as.factor(c(rep(1, length(data$mean_entropy_temp_0.06)), rep(2, length(data$mean_entropy_natural))))
+group_06 =  as.factor(c(rep("Temp0.06", length(data$mean_entropy_temp_0.06)), rep("Natural", length(data$mean_entropy_natural))))
+group_06
+data$mean_entropy_temp_0.06
+data
+BFData_06 = c(data$mean_entropy_temp_0.6,  data$mean_entropy_natural)
+group_06 =  as.factor(c(rep("Temp0.6", length(data$mean_entropy_temp_0.6)), rep("Natural", length(data$mean_entropy_natural))))
+group_06
+data06 = data.frame(source=group_06, mean_entropy=BFData_06)
+data06
+leveneTest(mean_entropy ~ source, data=data06)
+x=leveneTest(mean_entropy ~ source, data=data06)
+x
+attributes(x)
+x$names
+str(x)
+x$"Pr(>F)"
+x$"F value"
+require("car")#
+#
+data = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data.csv")#
+#
+head(data)#
+#
+head(data$mean_entropy_temp_0.0)#
+#
+fixed_natural_ttest = t.test(data$mean_entropy_temp_0.0,  data$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest)#
+BFData_06 = c(data$mean_entropy_temp_0.6,  data$mean_entropy_natural)#
+group_06 =  as.factor(c(rep("Temp0.6", length(data$mean_entropy_temp_0.6)), rep("Natural", length(data$mean_entropy_natural))))#
+data06 = data.frame(source=group_06, mean_entropy=BFData_06)#
+BF_06 = leveneTest(mean_entropy ~ source, data=data06)#
+p_value = BF_06$"P(>F)"#
+print(p_value)
+BF_06 = leveneTest(mean_entropy ~ source, data=data06)
+print(BF_06)
+p_value = BF_06$P(>F)
+p_value = BF_06"$P(>F)"
+require("car")#
+#
+data = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data.csv")#
+#
+head(data)#
+#
+head(data$mean_entropy_temp_0.0)#
+#
+fixed_natural_ttest = t.test(data$mean_entropy_temp_0.0,  data$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest)#
+BFData_06 = c(data$mean_entropy_temp_0.6,  data$mean_entropy_natural)#
+group_06 =  as.factor(c(rep("Temp0.6", length(data$mean_entropy_temp_0.6)), rep("Natural", length(data$mean_entropy_natural))))#
+data06 = data.frame(source=group_06, mean_entropy=BFData_06)#
+BF_06 = leveneTest(mean_entropy ~ source, data=data06)#
+p_value = BF_06"$P(>F)"#
+print(BF_06)
+require("car")#
+#
+data = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data.csv")#
+#
+head(data)#
+#
+head(data$mean_entropy_temp_0.0)#
+#
+fixed_natural_ttest = t.test(data$mean_entropy_temp_0.0,  data$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest)#
+BFData_06 = c(data$mean_entropy_temp_0.6,  data$mean_entropy_natural)#
+group_06 =  as.factor(c(rep("Temp0.6", length(data$mean_entropy_temp_0.6)), rep("Natural", length(data$mean_entropy_natural))))#
+data06 = data.frame(source=group_06, mean_entropy=BFData_06)#
+BF_06 = leveneTest(mean_entropy ~ source, data=data06)#
+print(BF_06)#
+#
+BFData_09 = c(data$mean_entropy_temp_0.9,  data$mean_entropy_natural)#
+group_09 =  as.factor(c(rep("Temp0.9", length(data$mean_entropy_temp_0.9)), rep("Natural", length(data$mean_entropy_natural))))#
+data09 = data.frame(source=group_09, mean_entropy=BFData_09)#
+BF_09 = leveneTest(mean_entropy ~ source, data=data09)#
+print(BF_09)
+require("car")#
+#
+data = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data.csv")#
+#
+head(data)#
+#
+head(data$mean_entropy_temp_0.0)#
+#
+fixed_natural_ttest = t.test(data$mean_entropy_temp_0.0,  data$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest)#
+#
+designed_06_natural_ttest = t.test(data$mean_entropy_temp_0.6,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_06_natural_ttest)#
+#
+designed_09_natural_ttest = t.test(data$mean_entropy_temp_0.9,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_09_natural_ttest)#
+BFData_06 = c(data$mean_entropy_temp_0.6,  data$mean_entropy_natural)#
+group_06 =  as.factor(c(rep("Temp0.6", length(data$mean_entropy_temp_0.6)), rep("Natural", length(data$mean_entropy_natural))))#
+data06 = data.frame(source=group_06, mean_entropy=BFData_06)#
+BF_06 = leveneTest(mean_entropy ~ source, data=data06)#
+print(BF_06)#
+#
+BFData_09 = c(data$mean_entropy_temp_0.9,  data$mean_entropy_natural)#
+group_09 =  as.factor(c(rep("Temp0.9", length(data$mean_entropy_temp_0.9)), rep("Natural", length(data$mean_entropy_natural))))#
+data09 = data.frame(source=group_09, mean_entropy=BFData_09)#
+BF_09 = leveneTest(mean_entropy ~ source, data=data09)#
+print(BF_09)
+clear
+require("car")#
+#
+data = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data.csv")#
+#
+head(data)#
+#
+head(data$mean_entropy_temp_0.0)#
+#
+fixed_natural_ttest = t.test(data$mean_entropy_temp_0.0,  data$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest)#
+#
+designed_06_natural_ttest = t.test(data$mean_entropy_temp_0.6,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_06_natural_ttest)#
+#
+designed_09_natural_ttest = t.test(data$mean_entropy_temp_0.9,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_09_natural_ttest)#
+BFData_06 = c(data$mean_entropy_temp_0.6,  data$mean_entropy_natural)#
+group_06 =  as.factor(c(rep("Temp0.6", length(data$mean_entropy_temp_0.6)), rep("Natural", length(data$mean_entropy_natural))))#
+data06 = data.frame(source=group_06, mean_entropy=BFData_06)#
+BF_06 = leveneTest(mean_entropy ~ source, data=data06)#
+print(BF_06)#
+#
+BFData_09 = c(data$mean_entropy_temp_0.9,  data$mean_entropy_natural)#
+group_09 =  as.factor(c(rep("Temp0.9", length(data$mean_entropy_temp_0.9)), rep("Natural", length(data$mean_entropy_natural))))#
+data09 = data.frame(source=group_09, mean_entropy=BFData_09)#
+BF_09 = leveneTest(mean_entropy ~ source, data=data09)#
+print(BF_09)
+require("car")#
+#
+data = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data_noah.csv")#
+#
+head(data)#
+#
+head(data$mean_entropy_temp_0.0)#
+#
+fixed_natural_ttest = t.test(data$mean_entropy_temp_0.0,  data$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest)#
+#
+designed_06_natural_ttest = t.test(data$mean_entropy_temp_0.6,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_06_natural_ttest)#
+#
+designed_09_natural_ttest = t.test(data$mean_entropy_temp_0.9,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_09_natural_ttest)#
+BFData_06 = c(data$mean_entropy_temp_0.6,  data$mean_entropy_natural)#
+group_06 =  as.factor(c(rep("Temp0.6", length(data$mean_entropy_temp_0.6)), rep("Natural", length(data$mean_entropy_natural))))#
+data06 = data.frame(source=group_06, mean_entropy=BFData_06)#
+BF_06 = leveneTest(mean_entropy ~ source, data=data06)#
+print(BF_06)#
+#
+BFData_09 = c(data$mean_entropy_temp_0.9,  data$mean_entropy_natural)#
+group_09 =  as.factor(c(rep("Temp0.9", length(data$mean_entropy_temp_0.9)), rep("Natural", length(data$mean_entropy_natural))))#
+data09 = data.frame(source=group_09, mean_entropy=BFData_09)#
+BF_09 = leveneTest(mean_entropy ~ source, data=data09)#
+print(BF_09)
+require("car")#
+#
+data = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data_noah.csv")#
+#
+head(data)
+cor_ttest = t.test(data$cor_entropy_RSA_03,  data$natural_cor_entropy_RSA_value, paired = TRUE)#
+print(cor_ttest)
+require("car")#
+#
+data = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data.csv")#
+#
+head(data)#
+#
+head(data$mean_entropy_temp_0.0)#
+#
+fixed_natural_ttest = t.test(data$mean_entropy_temp_0.0,  data$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest)#
+#
+designed_06_natural_ttest = t.test(data$mean_entropy_temp_0.6,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_06_natural_ttest)#
+#
+designed_09_natural_ttest = t.test(data$mean_entropy_temp_0.9,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_09_natural_ttest)#
+#
+cor_ttest = t.test(data$cor_entropy_RSA_03,  data$natural_cor_entropy_RSA_value, paired = TRUE)#
+print(cor_ttest)#
+BFData_06 = c(data$mean_entropy_temp_0.6,  data$mean_entropy_natural)#
+group_06 =  as.factor(c(rep("Temp0.6", length(data$mean_entropy_temp_0.6)), rep("Natural", length(data$mean_entropy_natural))))#
+data06 = data.frame(source=group_06, mean_entropy=BFData_06)#
+BF_06 = leveneTest(mean_entropy ~ source, data=data06)#
+print(BF_06)#
+#
+BFData_09 = c(data$mean_entropy_temp_0.9,  data$mean_entropy_natural)#
+group_09 =  as.factor(c(rep("Temp0.9", length(data$mean_entropy_temp_0.9)), rep("Natural", length(data$mean_entropy_natural))))#
+data09 = data.frame(source=group_09, mean_entropy=BFData_09)#
+BF_09 = leveneTest(mean_entropy ~ source, data=data09)#
+print(BF_09)
+require("car")#
+#
+data = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data_noah.csv")#
+#
+head(data)#
+#
+head(data$mean_entropy_temp_0.0)#
+#
+fixed_natural_ttest = t.test(data$mean_entropy_temp_0.0,  data$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest)#
+#
+designed_06_natural_ttest = t.test(data$mean_entropy_temp_0.6,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_06_natural_ttest)#
+#
+designed_09_natural_ttest = t.test(data$mean_entropy_temp_0.9,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_09_natural_ttest)#
+#
+cor_ttest = t.test(data$cor_entropy_RSA_03,  data$natural_cor_entropy_RSA_value, paired = TRUE)#
+print(cor_ttest)#
+BFData_06 = c(data$mean_entropy_temp_0.6,  data$mean_entropy_natural)#
+group_06 =  as.factor(c(rep("Temp0.6", length(data$mean_entropy_temp_0.6)), rep("Natural", length(data$mean_entropy_natural))))#
+data06 = data.frame(source=group_06, mean_entropy=BFData_06)#
+BF_06 = leveneTest(mean_entropy ~ source, data=data06)#
+print(BF_06)#
+#
+BFData_09 = c(data$mean_entropy_temp_0.9,  data$mean_entropy_natural)#
+group_09 =  as.factor(c(rep("Temp0.9", length(data$mean_entropy_temp_0.9)), rep("Natural", length(data$mean_entropy_natural))))#
+data09 = data.frame(source=group_09, mean_entropy=BFData_09)#
+BF_09 = leveneTest(mean_entropy ~ source, data=data09)#
+print(BF_09)
+require("car")#
+#
+data = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data.csv")#
+#
+head(data)#
+#
+head(data$mean_entropy_temp_0.0)#
+#
+fixed_natural_ttest = t.test(data$mean_entropy_temp_0.0,  data$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest)#
+#
+designed_06_natural_ttest = t.test(data$mean_entropy_temp_0.6,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_06_natural_ttest)#
+#
+designed_09_natural_ttest = t.test(data$mean_entropy_temp_0.9,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_09_natural_ttest)#
+#
+cor_ttest = t.test(data$cor_entropy_RSA_03,  data$natural_cor_entropy_RSA_value, paired = TRUE)#
+print(cor_ttest)#
+BFData_06 = c(data$mean_entropy_temp_0.6,  data$mean_entropy_natural)#
+group_06 =  as.factor(c(rep("Temp0.6", length(data$mean_entropy_temp_0.6)), rep("Natural", length(data$mean_entropy_natural))))#
+data06 = data.frame(source=group_06, mean_entropy=BFData_06)#
+BF_06 = leveneTest(mean_entropy ~ source, data=data06)#
+print(BF_06)#
+#
+BFData_09 = c(data$mean_entropy_temp_0.9,  data$mean_entropy_natural)#
+group_09 =  as.factor(c(rep("Temp0.9", length(data$mean_entropy_temp_0.9)), rep("Natural", length(data$mean_entropy_natural))))#
+data09 = data.frame(source=group_09, mean_entropy=BFData_09)#
+BF_09 = leveneTest(mean_entropy ~ source, data=data09)#
+print(BF_09)
+cor_ttest = t.test(data$cor_entropy_RSA_03,  data$natural_cor_entropy_RSA_value, paired = TRUE)#
+print(cor_ttest)
+print(data$cor_entropy_RSA_03)
+print(data$natural_cor_entropy_RSA_value)
+require("car")#
+#
+data = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data.csv")#
+#
+head(data)#
+#
+head(data$mean_entropy_temp_0.0)#
+#
+fixed_natural_ttest = t.test(data$mean_entropy_temp_0.0,  data$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest)#
+#
+designed_06_natural_ttest = t.test(data$mean_entropy_temp_0.6,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_06_natural_ttest)#
+#
+designed_09_natural_ttest = t.test(data$mean_entropy_temp_0.9,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_09_natural_ttest)#
+#
+cor_ttest = t.test(data$cor_entropy_RSA_03,  data$natural_cor_entropy_RSA_value, paired = TRUE)#
+print(data$cor_entropy_RSA_03)#
+print(data$natural_cor_entropy_RSA_value)#
+print(cor_ttest)#
+BFData_06 = c(data$mean_entropy_temp_0.6,  data$mean_entropy_natural)#
+group_06 =  as.factor(c(rep("Temp0.6", length(data$mean_entropy_temp_0.6)), rep("Natural", length(data$mean_entropy_natural))))#
+data06 = data.frame(source=group_06, mean_entropy=BFData_06)#
+BF_06 = leveneTest(mean_entropy ~ source, data=data06)#
+print(BF_06)#
+#
+BFData_09 = c(data$mean_entropy_temp_0.9,  data$mean_entropy_natural)#
+group_09 =  as.factor(c(rep("Temp0.9", length(data$mean_entropy_temp_0.9)), rep("Natural", length(data$mean_entropy_natural))))#
+data09 = data.frame(source=group_09, mean_entropy=BFData_09)#
+BF_09 = leveneTest(mean_entropy ~ source, data=data09)#
+print(BF_09)
+require("car")#
+#
+data = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data_noah.csv")#
+#
+head(data)#
+#
+head(data$mean_entropy_temp_0.0)#
+#
+fixed_natural_ttest = t.test(data$mean_entropy_temp_0.0,  data$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest)#
+#
+designed_06_natural_ttest = t.test(data$mean_entropy_temp_0.6,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_06_natural_ttest)#
+#
+designed_09_natural_ttest = t.test(data$mean_entropy_temp_0.9,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_09_natural_ttest)#
+#
+cor_ttest = t.test(data$cor_entropy_RSA_03,  data$natural_cor_entropy_RSA_value, paired = TRUE)#
+print(data$cor_entropy_RSA_03)#
+print(data$natural_cor_entropy_RSA_value)#
+print(cor_ttest)#
+BFData_06 = c(data$mean_entropy_temp_0.6,  data$mean_entropy_natural)#
+group_06 =  as.factor(c(rep("Temp0.6", length(data$mean_entropy_temp_0.6)), rep("Natural", length(data$mean_entropy_natural))))#
+data06 = data.frame(source=group_06, mean_entropy=BFData_06)#
+BF_06 = leveneTest(mean_entropy ~ source, data=data06)#
+print(BF_06)#
+#
+BFData_09 = c(data$mean_entropy_temp_0.9,  data$mean_entropy_natural)#
+group_09 =  as.factor(c(rep("Temp0.9", length(data$mean_entropy_temp_0.9)), rep("Natural", length(data$mean_entropy_natural))))#
+data09 = data.frame(source=group_09, mean_entropy=BFData_09)#
+BF_09 = leveneTest(mean_entropy ~ source, data=data09)#
+print(BF_09)
+data2 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_duncan_stats_file.csv")#
+head(data2)
+data2 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_duncan_stats_file.csv")#
+head(data2)#
+cor_ttest_mix1 = t.test(data$cor_entropy_03_06, data$natural_cor_entropy_RSA_value, paired = TRUE)#
+print(cor_ttest_mix1)
+data2 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_duncan_stats_file.csv")#
+head(data2)
+cor_ttest_mix1 = t.test(data$cor_entropy_03_06, data$natural_cor_entropy_RSA_value, paired = TRUE)
+data2 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_duncan_stats_file.csv")#
+head(data2)#
+cor_ttest_mix1 = t.test(data$cor_entropy_03_06, data$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix1
+data2 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_duncan_stats_file.csv")#
+head(data2)
+data2 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_duncan_stats_file.csv")#
+head(data2)#
+cor_ttest_mix1 = t.test(data2$cor_entropy_03_06, data$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix1)
+BF_09 = leveneTest(mean_entropy ~ source, data=data09)#
+print(BF_09)#
+#
+data2 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_duncan_stats_file.csv")#
+head(data2)
+cor_ttest_mix1 = t.test(data2$cor_entropy_03_06, data2$natural_cor_entropy_value, paired = TRUE)
+print(cor_ttest_mix1)
+data2 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_duncan_stats_file.csv")#
+head(data2)#
+cor_ttest_mix1 = t.test(data2$cor_entropy_03_06, data2$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix1)#
+#
+cor_ttest_mix2 = t.test(data2$cor_entropy_03_09, data2$natural_cor_entropy_RSA_value, paired = TRUE)#
+print(cor_ttest_mix2)
+data2 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_duncan_stats_file.csv")#
+head(data2)#
+cor_ttest_mix1 = t.test(data2$cor_entropy_03_06, data2$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix1)#
+#
+cor_ttest_mix2 = t.test(data2$cor_entropy_03_09, data2$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix2)
+data2 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_noah_stats_file.csv")#
+head(data2)#
+cor_ttest_mix1 = t.test(data2$cor_entropy_03_06, data2$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix1)#
+#
+cor_ttest_mix2 = t.test(data2$cor_entropy_03_09, data2$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix2)
+data3 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_noah_stats_file.csv")#
+head(data3)#
+cor_ttest_mix3 = t.test(data3$cor_entropy_06_12, data2$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix1)#
+#
+cor_ttest_mix4 = t.test(data3$cor_entropy_06_12, data2$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix2)
+data3 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_noah_stats_file.csv")#
+head(data3)#
+cor_ttest_mix3 = t.test(data3$cor_entropy_06_12, data3$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix1)#
+#
+cor_ttest_mix4 = t.test(data3$cor_entropy_06_12, data3$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix2)
+data3 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_noah_stats_file.csv")#
+head(data3)
+data3 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_noah_stats_file.csv")#
+head(data3)#
+cor_ttest_mix3 = t.test(data3$cor_entropy_06_12, data3$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix3)#
+#
+cor_ttest_mix4 = t.test(data3$cor_entropy_06_12, data3$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix4)
+data3 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_noah_stats_file.csv")#
+head(data3)#
+cor_ttest_mix3 = t.test(data3$cor_entropy_06_12, data3$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix3)#
+#
+cor_ttest_mix4 = t.test(data3$cor_entropy_06_18, data3$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix4)
+require("car")#
+#
+data = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data.csv")#
+#
+head(data)#
+#
+head(data$mean_entropy_temp_0.0)#
+#
+fixed_natural_ttest = t.test(data$mean_entropy_temp_0.0,  data$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest)#
+#
+designed_06_natural_ttest = t.test(data$mean_entropy_temp_0.6,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_06_natural_ttest)#
+#
+designed_09_natural_ttest = t.test(data$mean_entropy_temp_0.9,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_09_natural_ttest)#
+#
+cor_ttest = t.test(data$cor_entropy_RSA_03, data$natural_cor_entropy_RSA_value, paired = TRUE)#
+print(data$cor_entropy_RSA_03)#
+print(data$natural_cor_entropy_RSA_value)#
+print(cor_ttest)#
+#
+BFData_06 = c(data$mean_entropy_temp_0.6,  data$mean_entropy_natural)#
+group_06 =  as.factor(c(rep("Temp0.6", length(data$mean_entropy_temp_0.6)), rep("Natural", length(data$mean_entropy_natural))))#
+data06 = data.frame(source=group_06, mean_entropy=BFData_06)#
+BF_06 = leveneTest(mean_entropy ~ source, data=data06)#
+print(BF_06)#
+#
+BFData_09 = c(data$mean_entropy_temp_0.9,  data$mean_entropy_natural)#
+group_09 =  as.factor(c(rep("Temp0.9", length(data$mean_entropy_temp_0.9)), rep("Natural", length(data$mean_entropy_natural))))#
+data09 = data.frame(source=group_09, mean_entropy=BFData_09)#
+BF_09 = leveneTest(mean_entropy ~ source, data=data09)#
+print(BF_09)
+require("car")#
+#
+data = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data.csv")#
+#
+head(data)#
+#
+head(data$mean_entropy_temp_0.0)#
+#
+fixed_natural_ttest = t.test(data$mean_entropy_temp_0.0,  data$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest)#
+#
+designed_003_natural_ttest = t.test(data$mean_entropy_temp_0.03,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_06_natural_ttest)#
+#
+designed_01_natural_ttest = t.test(data$mean_entropy_temp_0.1,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_09_natural_ttest)#
+#
+cor_ttest = t.test(data$cor_entropy_RSA_03, data$natural_cor_entropy_RSA_value, paired = TRUE)#
+#print(data$cor_entropy_RSA_03)#
+#print(data$natural_cor_entropy_RSA_value)#
+print(cor_ttest)#
+#
+data4 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data_noah.csv")#
+#
+head(data4)#
+#
+head(data4$mean_entropy_temp_0.0)#
+#
+fixed_natural_ttest2 = t.test(data4$mean_entropy_temp_0.0,  data4$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest2)#
+#
+designed_09_natural_ttest = t.test(data4$mean_entropy_temp_0.9,  data4$mean_entropy_natural, paired = TRUE)#
+print(designed_09_natural_ttest)#
+#
+designed_12_natural_ttest = t.test(data4$mean_entropy_temp_1.2,  data4$mean_entropy_natural, paired = TRUE)#
+print(designed_06_natural_ttest)#
+cor_ttest2 = t.test(data4$cor_entropy_RSA_03, data4$natural_cor_entropy_RSA_value, paired = TRUE)#
+#print(data$cor_entropy_RSA_03)#
+#print(data$natural_cor_entropy_RSA_value)#
+print(cor_ttest2)#
+BFData_06 = c(data$mean_entropy_temp_0.6,  data$mean_entropy_natural)#
+group_06 =  as.factor(c(rep("Temp0.6", length(data$mean_entropy_temp_0.6)), rep("Natural", length(data$mean_entropy_natural))))#
+data06 = data.frame(source=group_06, mean_entropy=BFData_06)#
+BF_06 = leveneTest(mean_entropy ~ source, data=data06)#
+print(BF_06)#
+#
+BFData_09 = c(data$mean_entropy_temp_0.9,  data$mean_entropy_natural)#
+group_09 =  as.factor(c(rep("Temp0.9", length(data$mean_entropy_temp_0.9)), rep("Natural", length(data$mean_entropy_natural))))#
+data09 = data.frame(source=group_09, mean_entropy=BFData_09)#
+BF_09 = leveneTest(mean_entropy ~ source, data=data09)#
+print(BF_09)#
+#
+data2 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_duncan_stats_file.csv")#
+head(data2)#
+cor_ttest_mix1 = t.test(data2$cor_entropy_03_06, data2$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix1)#
+#
+cor_ttest_mix2 = t.test(data2$cor_entropy_03_09, data2$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix2)#
+data3 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_noah_stats_file.csv")#
+head(data3)#
+cor_ttest_mix3 = t.test(data3$cor_entropy_06_12, data3$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix3)#
+#
+cor_ttest_mix4 = t.test(data3$cor_entropy_06_18, data3$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix4)
+require("car")#
+#
+data = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data.csv")#
+#
+head(data)#
+#
+head(data$mean_entropy_temp_0.0)#
+#
+fixed_natural_ttest = t.test(data$mean_entropy_temp_0.0,  data$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest)#
+#
+designed_003_natural_ttest = t.test(data$mean_entropy_temp_0.03,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_06_natural_ttest)#
+#
+designed_01_natural_ttest = t.test(data$mean_entropy_temp_0.1,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_09_natural_ttest)#
+#
+cor_ttest = t.test(data$cor_entropy_RSA_03, data$natural_cor_entropy_RSA_value, paired = TRUE)#
+#print(data$cor_entropy_RSA_03)#
+#print(data$natural_cor_entropy_RSA_value)#
+print(cor_ttest)#
+#
+data4 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data_noah.csv")#
+#
+head(data4)#
+#
+head(data4$mean_entropy_temp_0.0)#
+#
+fixed_natural_ttest2 = t.test(data4$mean_entropy_temp_0.0,  data4$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest2)#
+#
+designed_09_natural_ttest = t.test(data4$mean_entropy_temp_0.9,  data4$mean_entropy_natural, paired = TRUE)#
+print(designed_09_natural_ttest)#
+#
+designed_12_natural_ttest = t.test(data4$mean_entropy_temp_1.2,  data4$mean_entropy_natural, paired = TRUE)#
+print(designed_06_natural_ttest)#
+cor_ttest2 = t.test(data4$cor_entropy_RSA_03, data4$natural_cor_entropy_RSA_value, paired = TRUE)#
+#print(data$cor_entropy_RSA_03)#
+#print(data$natural_cor_entropy_RSA_value)#
+print(cor_ttest2)
+require("car")#
+#
+data = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data.csv")#
+#
+head(data)#
+#
+head(data$mean_entropy_temp_0.0)#
+#
+fixed_natural_ttest = t.test(data$mean_entropy_temp_0.0,  data$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest)#
+#
+designed_003_natural_ttest = t.test(data$mean_entropy_temp_0.03,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_06_natural_ttest)#
+#
+designed_01_natural_ttest = t.test(data$mean_entropy_temp_0.1,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_09_natural_ttest)#
+#
+cor_ttest = t.test(data$cor_entropy_RSA_03, data$natural_cor_entropy_RSA_value, paired = TRUE)#
+#print(data$cor_entropy_RSA_03)#
+#print(data$natural_cor_entropy_RSA_value)#
+print(cor_ttest)#
+#
+data4 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data_noah.csv")#
+#
+head(data4)#
+#
+head(data4$mean_entropy_temp_0.0)#
+#
+fixed_natural_ttest2 = t.test(data4$mean_entropy_temp_0.0,  data4$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest2)#
+#
+designed_09_natural_ttest = t.test(data4$mean_entropy_temp_0.9,  data4$mean_entropy_natural, paired = TRUE)#
+print(designed_09_natural_ttest)#
+#
+designed_12_natural_ttest = t.test(data4$mean_entropy_temp_1.2,  data4$mean_entropy_natural, paired = TRUE)#
+print(designed_12_natural_ttest)#
+cor_ttest2 = t.test(data4$cor_entropy_RSA_03, data4$natural_cor_entropy_RSA_value, paired = TRUE)#
+#print(data$cor_entropy_RSA_03)#
+#print(data$natural_cor_entropy_RSA_value)#
+print(cor_ttest2)
+require("car")#
+#
+data = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data.csv")#
+#
+head(data)#
+#
+head(data$mean_entropy_temp_0.0)#
+#
+fixed_natural_ttest = t.test(data$mean_entropy_temp_0.0,  data$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest)#
+#
+designed_003_natural_ttest = t.test(data$mean_entropy_temp_0.03,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_003_natural_ttest)#
+#
+designed_01_natural_ttest = t.test(data$mean_entropy_temp_0.1,  data$mean_entropy_natural, paired = TRUE)#
+print(designed_01_natural_ttest)#
+#
+cor_ttest = t.test(data$cor_entropy_RSA_03, data$natural_cor_entropy_RSA_value, paired = TRUE)#
+#print(data$cor_entropy_RSA_03)#
+#print(data$natural_cor_entropy_RSA_value)#
+print(cor_ttest)#
+#
+data4 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/stats_data_noah.csv")#
+#
+head(data4)#
+#
+head(data4$mean_entropy_temp_0.0)#
+#
+fixed_natural_ttest2 = t.test(data4$mean_entropy_temp_0.0,  data4$mean_entropy_natural, paired = TRUE)#
+print(fixed_natural_ttest2)#
+#
+designed_09_natural_ttest = t.test(data4$mean_entropy_temp_0.9,  data4$mean_entropy_natural, paired = TRUE)#
+print(designed_09_natural_ttest)#
+#
+designed_12_natural_ttest = t.test(data4$mean_entropy_temp_1.2,  data4$mean_entropy_natural, paired = TRUE)#
+print(designed_12_natural_ttest)#
+cor_ttest2 = t.test(data4$cor_entropy_RSA_03, data4$natural_cor_entropy_RSA_value, paired = TRUE)#
+#print(data$cor_entropy_RSA_03)#
+#print(data$natural_cor_entropy_RSA_value)#
+print(cor_ttest2)
+data2 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_duncan_stats_file.csv")#
+head(data2)#
+cor_ttest_mix1 = t.test(data2$cor_entropy_00_01, data2$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix1)#
+#
+cor_ttest_mix2 = t.test(data2$cor_entropy_003_01, data2$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix2)#
+data3 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_noah_stats_file.csv")#
+head(data3)#
+cor_ttest_mix3 = t.test(data3$cor_entropy_03_18, data3$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix3)#
+#
+cor_ttest_mix4 = t.test(data3$cor_entropy_06_18, data3$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix4)
+data2 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_duncan_stats_file.csv")#
+head(data2)#
+cor_ttest_mix1 = t.test(data2$cor_entropy_00_01, data2$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix1)#
+#
+cor_ttest_mix2 = t.test(data2$cor_entropy_003_01, data2$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix2)
+data3 = read.delim("/Users/Eleisha/Documents/Wilke_Lab/Project_1/project/r_scripts/mixed_noah_stats_file.csv")#
+head(data3)#
+cor_ttest_mix3 = t.test(data3$cor_entropy_03_18, data3$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix3)#
+#
+cor_ttest_mix4 = t.test(data3$cor_entropy_06_18, data3$natural_cor_entropy_value, paired = TRUE)#
+print(cor_ttest_mix4)
