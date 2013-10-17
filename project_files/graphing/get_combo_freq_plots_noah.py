@@ -211,6 +211,7 @@ for temp in temps:
 	
 	ax = plt.axes([0.09, 0.71, 0.87, 0.28])
 	ax.text(0.32, 0.23, "All", ha = 'center', fontsize = 15)#, va = 'center', fontsize = 16)
+	ax.text(-1.0, 0.251, "A", fontweight = 'bold', ha = 'center', va = 'center', fontsize = 15)
 	width = 0.40 #The width of the bars
 	b1 = plt.bar(index, new_designed_mean_aa_freqs, width, color = "blue")
 	b2 = plt.bar(index+width, new_natural_mean_aa_freqs, width, color = "red")
@@ -229,6 +230,7 @@ for temp in temps:
 	
 	ax2 = plt.axes([0.09, 0.38, 0.87, 0.28])
 	ax2.text(0.8, 0.23, "Exposed", ha = 'center', fontsize = 15)
+	ax2.text(-1.0, 0.251, "B", fontweight = 'bold', ha = 'center', va = 'center', fontsize = 15)
 	b3 = plt.bar(index, new_designed_surface_mean_freqs, width, color = "blue")
 	b4 = plt.bar(index + width, new_natural_surface_mean_freqs, width, color = "red") 
 	ax2.set_xticklabels(hydro_list)
@@ -244,6 +246,7 @@ for temp in temps:
 	
 	ax3 = plt.axes([0.09, 0.06, 0.87, 0.28])
 	ax3.text(0.64, 0.23, "Buried", ha = 'center', fontsize = 15)
+	ax3.text(-1.0, 0.251, "C", fontweight = 'bold', ha = 'center', va = 'center', fontsize = 15)
 	b5 = plt.bar(index, new_designed_buried_mean_freqs, width, color = "blue")
 	b6 = plt.bar(index + width, new_natural_buried_mean_freqs, width, color = "red") 
 	
