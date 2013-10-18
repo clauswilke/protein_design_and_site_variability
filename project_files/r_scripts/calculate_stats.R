@@ -72,6 +72,3 @@ print(cor_ttest_mix3)
 
 cor_ttest_mix4 = t.test(data3$cor_entropy_06_18, data3$natural_cor_entropy_value, paired = TRUE)
 print(cor_ttest_mix4)
-
-
-
