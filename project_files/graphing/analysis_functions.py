@@ -10,7 +10,7 @@ from Bio.PDB.Polypeptide import *
 from pylab import *
 import matplotlib.pyplot as plt
 
-#LAST UPDATED: September 23, 2013
+#LAST UPDATED: August 6, 2013
 #Description: This is a series of functions that are used in the Protein Design Project Analysis
 
 EulerGamma = 0.57721566490153286060 #Euler Gamma Constant
@@ -22,12 +22,12 @@ resdict = { 'ALA': 'A', 'CYS': 'C', 'ASP': 'D', 'GLU': 'E', 'PHE': 'F', \
             'SER': 'S', 'THR': 'T', 'VAL': 'V', 'TRP': 'W', 'TYR': 'Y' }
 
 #This is a dictionary that has the amino acid for the key and the max solvent accessibility for this amino acid
-#THIS HAS BEEN UPDATED. I AM USING THE NEW THEORETICAL NUMBERS FROM THE 2013 AUSTIN, STEPHANIE, MATT, WILKE PAPER. 
+#THIS HAS BEEN UPDATED. I AM USING THE NEW THEORETICAL NUMBERS FROM TIEN et al. 2013
 residue_max_acc = {'A': 129.0, 'R': 274.0, 'N': 195.0, 'D': 193.0, \
-                   'C': 158.0, 'Q': 223.0, 'E': 224.0, 'G': 104.0,  \
-                   'H': 209.0, 'I': 197.0, 'L': 201.0, 'K': 237.0, \
-                   'M': 218.0, 'F': 239.0, 'P': 159.0, 'S': 151.0, \
-                   'T': 172.0, 'W': 282.0, 'Y': 263.0, 'V': 174.0}
+                   'C': 167.0, 'Q': 223.0, 'E': 225.0, 'G': 104.0,  \
+                   'H': 224.0, 'I': 197.0, 'L': 201.0, 'K': 236.0, \
+                   'M': 224.0, 'F': 240.0, 'P': 159.0, 'S': 155.0, \
+                   'T': 172.0, 'W': 285.0, 'Y': 263.0, 'V': 174.0}
 
 #residue_max_acc = {'A': 113.0, 'R': 241.0, 'N': 158.0, 'D': 151.0, \
 #		   'C': 140.0, 'Q': 189.0, 'E': 183.0, 'G': 85.0,  \
@@ -355,6 +355,28 @@ def get_transformed_data(list_of_sequences):
         transformed_distribution.append(new_elements) #Appends the count data for each site to a giant list
     return transformed_distribution
 
+#This function takes a list containing RSA and site AA count info and returns a list of lists that contain all of the count data for every site
+def get_transformed_data_KL(list_of_sequences):
+    transformed_distribution = []
+    for seq in list_of_sequences: #Removes any newlines that happen to be appended to the new of the 
+        sequences = seq.strip() 
+    list_of_sequences.pop(0)
+
+    new_data = []
+    for line in list_of_sequences:
+        element = line.split()
+        element.pop(0)  #Removes the first three elements in the line since they do not contain frequency data
+        element.pop(0)
+        element.pop(0)
+        new_data.append(element)
+    for data in new_data: #For each site  (Each site should have 20 numbers, each number representing how often each AA was seen at that site
+        new_elements = []
+        for count in data:  #For each number of counts representing each AA    
+            new_count = float(count) + 0.05 #Turns the string representing the count data into an actual number
+            new_elements.append(new_count) #Appends the number to the list containing the count data for that site
+        transformed_distribution.append(new_elements) #Appends the count data for each site to a giant list
+    return transformed_distribution
+
 #This function takes the amino acid count data for the designed and corresponding natural sequences and returns a list of lists with all the AA frequency data at each site. 
 def get_AA_distribution(proteins): #Opens the file with the frequency results (the .dat file)
     protein_distribution = []
@@ -378,23 +400,22 @@ def get_AA_distribution(proteins): #Opens the file with the frequency results (t
             aa_probs.append(prob)
         transformed_protein_distribution.append(aa_probs)
     return transformed_protein_distribution
-    
-'''
-def get_AA_distribution_mod(proteins):
-    #print proteins
+ 
+ #This function takes the amino acid count data for the designed and corresponding natural sequences and returns a list of lists with all the AA frequency data at each site. 
+def get_AA_distribution_KL(proteins): #Opens the file with the frequency results (the .dat file)
     protein_distribution = []
     transformed_protein_distribution = []
     num_AA = 0
     input = open(proteins, "r")
     protein_data = input.readlines()
     input.close()
-    protein_distribution = get_transformed_data(protein_data)
+    protein_distribution = get_transformed_data_KL(protein_data) #Gets a list of list with all of the AA counts for each site 
     for site in protein_distribution:
         new_site = site
         num_AA = sum(new_site)
         aa_probs = []
         for count in new_site:   
-            if count == 0:
+            if count == 0: #Turns all of the raw counts into frequencies 
                 prob = 0.0
                 #prob = float(1)/float(num_AA + 20)
             else:
@@ -403,14 +424,14 @@ def get_AA_distribution_mod(proteins):
             aa_probs.append(prob)
         transformed_protein_distribution.append(aa_probs)
     return transformed_protein_distribution
-'''
 
-#Returns a list of KL_Divergence values for two distributions. The inputs are two list of lists representing the two sequence alignments
+#Returns a list of KL_Divergence values for two distributions. The inputs are two list of lists representing the two distributions.
 def get_Kullback_Leibler(real_proteins, created_proteins):
     #print real_proteins
     #print created_proteins
     KL_Values = []
     KL_Number = 0
+       
     real_array = array(real_proteins) #Array with all of the AA frequency for each site in the natural alignment
     created_array = array(created_proteins) #The array same for the designed
     created_num_residues, created_num_AA = created_array.shape
@@ -421,7 +442,11 @@ def get_Kullback_Leibler(real_proteins, created_proteins):
         created_values = created_proteins[i]
         KL_Number = 0
         for j in xrange(0,20):
-            if (created_values[j] == 0.0 and real_values[j]== 0.0):
+            value = log(float(real_values[j])/float(created_values[j]))
+            value = value*float(real_values[j])
+            KL_Number = KL_Number + value
+             
+            '''if (created_values[j] == 0.0 and real_values[j]== 0.0):
                 #print "In the first cateogory", str(created_values[j]), str(real_values[j])
                 continue
             elif (created_values[j] == 0.0):
@@ -435,6 +460,9 @@ def get_Kullback_Leibler(real_proteins, created_proteins):
                 value = value*float(real_values[j])
                 KL_Number = KL_Number + value
                 #print "In the last cateogory", str(created_values[j]), str(real_values[j]), value
+            '''
+            
+            
         KL_Values.append(KL_Number)
     return KL_Values #Returns a list with the KL-Divergence for each site
  
