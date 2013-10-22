@@ -28,7 +28,7 @@
 \noindent
 $^1$ Institute of Cellular and Molecular Biology, Center for Computational Biology and Bioinformatics, and Department of Integrative Biology, The University of Texas at Austin, Austin, Texas, USA\\
 $^2$ Graduate Program in Bioinformatics, University of California San Francisco, San Francisco, California, USA\\
-$^3$ California Institute for Quantitative Biosciences (QB3) and Department of Bioengineering and Therapeutic Science, University of California San Francisco, San Francisco, California, USA
+$^3$ California Institute for Quantitative Biosciences (QB3) and Department of Bioengineering and Therapeutic Sciences, University of California San Francisco, San Francisco, California, USA
 
 \bigskip
 \noindent
@@ -67,25 +67,36 @@ Here, we carried out a systematic comparison between alignments of natural seque
 
 We analyzed two data sets, one of whole yeast proteins and one of protein domains. The yeast-proteins data set was taken from \citet{Ramsey2011} and comprised 38 protein structures homologous to an open reading frame in \emph{Saccharomyces cerevisiae}. For each of those structures, we had at least 50 homologous natural sequences, also taken from  \citet{Ramsey2011}. The protein-domain data set was taken from \citet{OllikainenKortemme} and comprised 40 protein domains. Only domains with at least one crystal structure in the Protein Database (PDB) and at least 500 sequences in the Pfam Database were selected for this data set. Domains were selected in order to represent several different types of protein folds and domains were also restricted to a length less than or equal to 150 amino acids. For each of these protein domains, we obtained alignments of homologous natural sequences from the Pfam database \citep{Pfam}, as described \citep{OllikainenKortemme}.\subsection{Protein design}
 
-For each structure in both data sets, we computationally designed 500 variants each, using multiple design methods. All design methods we used are implemented in the protein-design software Rosetta \citep{LeaverFayetal2011}. First, we used standard fixed-backbone design \citep{Kuhlman2003}. In this method, the protein backbone remains fixed and only amino-acid side chains are allowed to move. Second, we used the flexible-backbone method Backrub \citep{Smith2008}, which first generates an ensemble of alternative backbones and then designs side chains onto these backbones \citep{Friedland2009, Smith2010}. The Backrub method takes as input a temperature parameter that determines the extent of backbone movements that occur during design. Here, we used temperatures spanning from 0.03 to 2.4 corresponding to increasing backbone movements. For the protein-domain data set, we also used one additional design method, called ``Soft''. This method keeps the backbone fixed but the energy function used during sequence design dampens the weight of the repulsive Lennard-Jones (LJ) potential term \citep{OllikainenKortemme}.  Protein designs for the protein-domain data set have been previously published \citep{OllikainenKortemme}, while the designs for the yeast-proteins data set were newly generated for the present study. For the fixed and flexible backbone design the following options were used: 
+For each structure in both data sets, we computationally designed 500 variants each, using multiple design methods. All design methods we used are implemented in the protein-design software Rosetta \citep{LeaverFayetal2011}. First, we used standard fixed-backbone design \citep{Kuhlman2003}. In this method, the protein backbone remains fixed and only amino-acid side chains are allowed to move. Second, we used the flexible-backbone method Backrub \citep{Smith2008}, which first generates an ensemble of alternative backbones and then designs side chains onto these backbones \citep{Friedland2009, Smith2010}. The Backrub method takes as input a temperature parameter that determines the extent of backbone movements that occur during design. Here, we used temperatures spanning from 0.03 to 2.4 corresponding to increasing backbone movements. For the protein-domain data set, we also used one additional design method, called ``Soft''. This method keeps the backbone fixed but the energy function used during sequence design dampens the weight of the repulsive Lennard-Jones (LJ) potential term \citep{OllikainenKortemme}.  Protein designs for the protein-domain data set have been previously published \citep{OllikainenKortemme}, while the designs for the yeast-proteins data set were newly generated for the present study.
 
-\noindent Fixed (Rosetta Revision 39284)
+All designs for the yeast-proteins data set were generated with Rosetta Revision 39284. For fixed-backbone design, we used the following command:
+\begin{verbatim}
+./fixbb.linuxgccrelease -database rosetta_database \
+            -s input.pdb -resfile ALLAA.res -ex1 -ex2 \
+            -extrachi_cutoff 0 -nstruct 1 -linmem_ig 10
+\end{verbatim}
 
-\noindent ./fixbb.linuxgccrelease -database rosetta\textunderscore database -s input.pdb -resfile ALLAA.res -ex1 -ex2 -extrachi\textunderscore cutoff 0 -nstruct 1 -linmem\textunderscore ig 10
+\noindent Flexible-backbone design was performed by generating a conformational ensemble of 500 structures and then using fixed-backbone design to predict a low energy sequence for each structure in the ensemble. To generate structures for the conformational ensemble, we used the following command:
+\begin{verbatim}
+./backrub.linuxgccrelease -database rosetta_database \
+            -s input.pdb -resfile NATAA.res -ex1 -ex2 \
+            -extrachi_cutoff 0 -backrub:mc_kt <T> \
+            -backrub:ntrials 10000 -nstruct 1 -backrub:initial_pack
+\end{verbatim}
+\noindent where \texttt{<T>} has to be replaced by the desired design temperature.
 
-\noindent Backrub (Rosetta Revision 39284)
-
-\noindent ./backrub.linuxgccrelease -database rosetta\_database -s input.pdb -resfile NATAA.res -ex1 -ex2 -extrachi\_cutoff 0 -backrub:mc\_kt KT -backrub:ntrials 10000 -nstruct 1 -backrub:initial\_pack
-
-\noindent The details for the design for the protein domain data set can be found in \citet{OllikainenKortemme}.
+The design details for the protein-domain data set can be found in \citet{OllikainenKortemme}.
 
 \subsection{Data analysis}
 
-We quantified the variability of sites in amino-acid alignments using site entropy $H_i$, defined as $H_i=\sum_{j}p_{ij}\ln p_{ij}$. Here, $p_{ij}$ is frequency of amino acid $j$ in alignment column $i$, and the sum runs over all amino acids. We compared amino-acid distributions of designed sequences to those of natural sequences using the Kullback-Leibler (KL) divergence. The KL divergence $D^\text{KL}_i$ is defined as $D^\text{KL}_i= \sum_j  p_{ij} \ln  (p_{ij}/q_{ij})$, where $q_{ij}$ is the frequency of amino acid $j$ in column $i$ of the reference alignment, and $p_{ij}$ is the corresponding frequency in the alignment that is being compared to the reference alignment. The sum runs over all amino acids.  When calculating frequencies used for the KL divergence we corrected for the presence of frequencies of zero by adding  $\frac{1}{20}$ to each amino acid count before calculating the frequencies. The KL divergence is inherently an asymmetric distance measure, comparing a probability distribution of interest to a reference distribution. Unless noted otherwise, we always used natural sequence alignments to calculate the reference frequencies $q_{ij}$ and designed sequence alignments to calculate the frequencies $p_{ij}$. Throughout this work, we calculated $D^\text{KL}_i$ separately at each site $i$ in a protein, and then averaged the $D^\text{KL}_i$ values for all sites in a protein to obtain a mean KL divergence for that protein.
+We quantified the variability of sites in amino-acid alignments using site entropy $H_i$, defined as $H_i=\sum_{j}p_{ij}\ln p_{ij}$. Here, $p_{ij}$ is frequency of amino acid $j$ in alignment column $i$, and the sum runs over all amino acids. We compared amino-acid distributions of designed sequences to those of natural sequences using the Kullback-Leibler (KL) divergence. The KL divergence $D^\text{KL}_i$ is defined as $D^\text{KL}_i= \sum_j  p_{ij} \ln  (p_{ij}/q_{ij})$, where $q_{ij}$ is the frequency of amino acid $j$ in column $i$ of the reference alignment, and $p_{ij}$ is the corresponding frequency in the alignment that is being compared to the reference alignment. The sum runs over all amino acids.  When calculating frequencies used for the KL divergence we corrected for the presence of frequencies of zero by adding  $1/20$ to each amino acid count before calculating the frequencies. The KL divergence is inherently an asymmetric distance measure, comparing a probability distribution of interest to a reference distribution. Unless noted otherwise, we always used natural sequence alignments to calculate the reference frequencies $q_{ij}$ and designed sequence alignments to calculate the frequencies $p_{ij}$. Throughout this work, we calculated $D^\text{KL}_i$ separately at each site $i$ in a protein, and then averaged the $D^\text{KL}_i$ values for all sites in a protein to obtain a mean KL divergence for that protein.
 
-To compare the shapes of amino-acid distributions while disregarding specific amino-acid identities, we performed a second type of KL calculation where we ordered amino-acid by relative frequency. Thus, instead of the frequencies $p_{ij}$ and $q_{ij}$ we used $p_{ir_j}$ and $q_{is_j}$, where $r_j$ is the rank of the frequency of amino acid $j$ in column $i$ of the alignment being compared to the reference, and $s_j$ is the rank of the frequency of amino acid $j$ in column $i$ of the reference alignment. This way of calculating the KL divergence compares the frequencies of amino acids at equal frequency rank, regardless of which specific amino acids are the most frequent, second-most frequent, and so on in each alignment.
+To compare the shapes of amino-acid distributions while disregarding specific amino-acid identities, we performed a second type of KL calculation where we ordered amino-acids by their relative frequencies. Thus, instead of the frequencies $p_{ij}$ and $q_{ij}$ we used $p_{ir_j}$ and $q_{is_j}$, where $r_j$ is the rank of the frequency of amino acid $j$ in column $i$ of the alignment being compared to the reference, and $s_j$ is the rank of the frequency of amino acid $j$ in column $i$ of the reference alignment. This way of calculating the KL divergence compares the frequencies of amino acids at equal frequency rank, regardless of which specific amino acids are the most frequent, second-most frequent, and so on in each alignment. As an example, assume that at a given site there are only three different amino acids in the natural alignment, I, L, and V, at frequencies 0.5, 0.35, and 0.15, respectively. At the same site in the designed sequences, there are amino acids A, V, and I, also at frequencies 0.5, 0.35, and 0.15, respectively. In our calcuation of KL divergence comparing amino acids at equal frequency rank, we would then compare the frequency of I in the natural alignment with the frequency of A in the designed alignment (the two most frequent amino acids in the two respective alignments) and similarly the frequency of L with the frequency of V and the frequency of V with the frequency of I, respectively. In this example, since the two sets of three frequencies are exactly the same if we disregard amino-acid type, we would obtain a KL divergence of zero.
 
 We calculated Relative Solvent Accessibility (RSA) of residues by first calculating the absolute Solvent Accessibility (ASA) for each residue, using the software DSSP \citep{Kabsch1983}. For each protein, we extracted the chain of interest from the PDB structure and ran DSSP only on that chain. We calculated RSA by dividing the ASA value for each residue by the maximum possible ASA value, as given by \citet{Tien}. Throughout this work, we only calculated RSA on the native PDB structure. We did not perform any RSA calculations on designed structures.
+
+All our data and analysis scripts are available online at:\\
+\texttt{https://github.com/clauswilke/protein\_design\_and\_site\_variability}
 
 \section{Results}
 \label{Results}
@@ -99,7 +110,7 @@ We first compared overall amino-acid variability in designed and natural protein
 
 We found that protein design using a fixed backbone generally yielded insufficient site variability compared to natural sequences (Fig.~\ref{MeanEntropyComparison}).  This result was magnified in the smaller protein domains. In fact, for the protein domains, the most variable proteins under fixed-backbone design showed only about as much variability as the least variable natural proteins. Overall, there was a significant shift towards higher variability in natural proteins relative to proteins designed with fixed backbone (paired $t$ test, $P = 1.4\times10^{-10}$ for the yeast-proteins data set and $P<10^{-15}$ for the protein-domain data set). When switching from fixed-backbone design to variable-backbone design, we found that overall site variability increased. Further, site variability increased monotonously with the degree of backbone flexibility allowed during design, as measured by the design temperature (Fig.~\ref{MeanEntropyComparison}). At the highest temperatures, site variability in designed proteins consistently exceeded that of natural proteins. 
 
-Proteins designed at intermediate temperatures had site variability that mostly closely resembled that of natural proteins. For the yeast-proteins data set, the temperature that provided the closest match was $T=0.03$, even though the variability of sequences designed at that temperature still exceeded the variability in natural sequences (paired $t$ test, $P= 0.0006$). For the protein-domains data set, the temperature that provided the closest match was $T=0.9$, for which variability was statistically indistinguishable from that found in natural sequence alignments (paired $t$ test, $P= 0.353$). However, for both data sets, natural sequences generally showed a larger spread in variabilities than did the designed sequences at the closest-matching temperatures (Brown-Forsythe test for equal variances, $P= 0.0003$ for the yeast-proteins data set at $T = 0.03$  and $P= 7.3\times 10^{-6}$ for the protein-domain data set at $T = 0.9$).
+Proteins designed at intermediate temperatures had site variabilities that most closely resembled that of natural proteins. For the yeast-proteins data set, the temperature that provided the closest match was $T=0.03$, even though the variability of sequences designed at that temperature still exceeded the variability in natural sequences (paired $t$ test, $P= 0.0006$). For the protein-domains data set, the temperature that provided the closest match was $T=0.9$, for which variability was statistically indistinguishable from that found in natural sequence alignments (paired $t$ test, $P= 0.353$). However, for both data sets, natural sequences generally showed a larger spread in variabilities than did the designed sequences at the closest-matching temperatures (Brown-Forsythe test for equal variances, $P= 0.0003$ for the yeast-proteins data set at $T = 0.03$  and $P= 7.3\times 10^{-6}$ for the protein-domain data set at $T = 0.9$).
 
 \subsection{Amino-acid distributions}
 \label{AminoAcidDistributions}
@@ -127,7 +138,7 @@ Our finding that correlations between site entropy and RSA are lower in designed
 
 If buried sites are too variable or exposed sites too conserved in designed proteins, we reasoned that hybrid designs, in which buried sites were taken from sequences designed at a lower temperature and exposed sites from sequences designed at a higher temperature, should display correlations more similar to those seen in natural proteins. 
 
-According to Fig.~\ref{Mean_Entropy_Surface_Core}, for the yeast proteins buried and partially buried sites in designed proteins had site variability most similar to that of natural sequences in proteins designed with a fixed backbone or in proteins design temperature of $T=0.03$. In the protein-domains data set, that temperature was $T=0.3$ to $T = 0.6$.  By contrast, for exposed sites the site variability in designed proteins was most similar to that of natural sequences at a design temperature of $T= 0.1$ (yeast proteins) and $T  = 1.2$ (protein domains).  We thus built our hybrid designs by combining sites from these temperatures. We found that the distribution of the site-entropy--RSA correlations in hybrid designs was comparable to that in natural sequences (Fig.~\ref{Mixed_RSA_Entropy}). However, predictions for specific proteins lacked accuracy (Fig.~\ref{Mixed_Entropy_Correlation_Plot}).
+According to Fig.~\ref{Mean_Entropy_Surface_Core}, for the yeast proteins buried and partially buried sites in designed proteins had site variability most similar to that of natural sequences in proteins designed with a fixed backbone or in proteins with a design temperature of $T=0.03$. In the protein-domains data set, that temperature was $T=0.3$ to $T = 0.6$.  By contrast, for exposed sites the site variability in designed proteins was most similar to that of natural sequences at a design temperature of $T= 0.1$ (yeast proteins) and $T  = 1.2$ (protein domains).  We thus built our hybrid designs by combining sites from these temperatures. We found that the distribution of the site-entropy--RSA correlations in hybrid designs was comparable to that in natural sequences (Fig.~\ref{Mixed_RSA_Entropy}). However, predictions for specific proteins lacked accuracy (Fig.~\ref{Mixed_Entropy_Correlation_Plot}).
 
 \section{Discussion}
 
@@ -139,15 +150,15 @@ A previous study, the source of the protein-domains data set we analyzed here, h
 
 Our analysis compared two distinct datasets. The first was comprised of 40 protein domains, chosen to be less than 150 amino acids in length and with a mean length of 86.1 amino acids. The second was comprised of 38 whole yeast proteins, with a mean length of 215.4 amino acids. For each structure in each data set, we had an associated alignment of natural sequences to assess natural variability for that structure. (Note that sequences homologous to the yeast proteins were not constrained to be fungal sequences.) Sequence in the protein-domain data set were more variable than sequences in the yeast-protein data set. We found that optimal design temperatures were lower for the yeast-protein data set than for the protein-domains data set. This finding is consistent with both increased mean length and reduced mean variability in the yeast-protein data set relative to the protein-domains data set. In particular, large cores in the larger proteins may lead to larger conserved regions whose site variability patterns are better recaptured at lower design temperatures. 
 
-We found generally that the characteristics of designed protein sequences are generally similar but by no means identical to natural sequences. To some extent, this discrepancy is to be expected. Designed protein sequences are optimized entirely for thermodynamic stability as estimated by the design energy function. Natural proteins experience a variety of selective pressures, stability being only one of them. For example, natural proteins experience selection pressures for native protein--protein interactions, against non-specific protein--protein interactions, and against misfolding and aggregation  \citep{Fraser2002, Zarrinpar2003, Drummond2008, Levyetal2012}. If they are enzymes, natural proteins also require the appropriate mutations that enable enzymatic activity, even if those mutations are thermodynamically destabilizing \citep{Bloometal2006, Elcock2001}. While selection for enzymatic activity will likely affect only a few sites in a protein, the other selective forces (misfolding, aggregation, native and non-specific interactions) have the potential to exert much broader selection pressures across many sites in a protein. As long as design algorithms do not take these selection pressures into account, we cannot expect design algorithms to reproduce natural sequence variation exactly.
+We found that the characteristics of designed protein sequences are generally similar but by no means identical to natural sequences. To some extent, this discrepancy is to be expected. Designed protein sequences are optimized entirely for thermodynamic stability as estimated by the design energy function. Natural proteins experience a variety of selective pressures, stability being only one of them. For example, natural proteins experience selection pressures for native protein--protein interactions, against non-specific protein--protein interactions, and against misfolding and aggregation  \citep{Fraser2002, Zarrinpar2003, Drummond2008, Levyetal2012}. If they are enzymes, natural proteins also require the appropriate mutations that enable enzymatic activity, even if those mutations are thermodynamically destabilizing \citep{Bloometal2006, Elcock2001}. While selection for enzymatic activity will likely affect only a few sites in a protein, the other selective forces (misfolding, aggregation, native and non-specific interactions) have the potential to exert much broader selection pressures across many sites in a protein. As long as design algorithms do not take these selection pressures into account, we cannot expect design algorithms to reproduce natural sequence variation exactly.
 
-To identify at what sites discrepancies between natural and designed proteins arose, we explicitly examined the relationship between structure and sequence variability. In particular, we analyzed the correlation between RSA and site entropy, which reflects the well-known observation that proteins are more variable on the surface than in the core. We found that the difference between surface and core variability was much more pronounced in natural proteins than in designed proteins. Designed proteins either have cores that are too variable or surfaces that are too conserved. We created hybrid designs, taking core sites from one set of designed proteins and surface site from another set, designed with more backbone movement, and tested whether these hybrid designs showed the appropriate differential in variability between core and surface sites. We found that they did so as a population (Fig.~\ref{Mixed_RSA_Entropy}) but not individually (Fig.~\ref{Mixed_Entropy_Correlation_Plot}). This observation indicates that there is some aspect of protein fold stability that differentially affects surface and core residues and that is not yet properly incorporated into current design algorithms. Simply raising the design temperature on the surface but not in the core is not sufficient to capture this effect.
+To identify at what sites discrepancies between natural and designed proteins arose, we explicitly examined the relationship between structure and sequence variability. In particular, we analyzed the correlation between RSA and site entropy, which reflects the well-known observation that proteins are more variable on the surface than in the core. We found that the difference between surface and core variability was much more pronounced in natural proteins than in designed proteins. Designed proteins either have cores that are too variable or surfaces that are too conserved. We created hybrid designs, taking core sites from one set of designed proteins and surface site from another set, designed with more backbone movement, and tested whether these hybrid designs showed the appropriate differential in variability between core and surface sites. We found that they did so as a population (Fig.~\ref{Mixed_RSA_Entropy}) but not individually (Fig.~\ref{Mixed_Entropy_Correlation_Plot}). This observation indicates that there is some aspect of protein fold stability that differentially affects surface and core residues and that is not yet properly incorporated into current design algorithms. Simply raising the design temperature on the surface but not in the core is not sufficient to capture this effect. Note that we do not expect our hybrid design approach to yield realistic, stable protein sequences. It is merely meant as an illustration of the extent to which surface sites would have to be more variable relative to core sites to yield entropy-RSA correlations comparable to those found in natural sequences. 
 
 For both data sets, the designed proteins had fewer hydrophobic residues and more polar residues than expected from natural sequence alignments. This trend was particularly apparent in the protein core, and it was more extreme for larger proteins. These discrepancies suggest a need for further improvement of the design algorithm, most likely the energy function. Rosetta uses a scoring function that predicts the energy of a given sequence folded into a particular target structure \citep{Kuhlman2003}. As a component of this scoring function, Rosetta uses the Lazaridis-Karplus implicit solvation model to estimate the energy of desolvation of each residue \citep{Lazaridis1999}. The over-representation of polar residues in protein cores that we observed suggests that this solvation model is either insufficiently penalizing for the burial of polar groups or insufficiently rewarding the burial of hydrophobic residues. Improvements to the solvation model used in design may result in more stable designed proteins with amino acid distributions more similar to those of natural proteins, especially in protein cores.
 
 While protein cores are more variable in designed proteins compared to natural proteins, the surfaces of designed proteins are too conserved. This discrepancy is somewhat expected. We would only expect close agreement between designed and natural proteins if the sequences are under the same constraints (and provided the energy function could accurately capture these). Computational design optimizes sequences primarily for protein stability, which, in natural proteins, is more likely to be a dominant constraint in protein cores than on surfaces. Surfaces of natural proteins may also be under other important pressures, such as to make desired and avoid unwanted interactions and to keep proteins soluble. All of these pressures could act to diversify protein surfaces away from sequence choices that would maximize stability. In addition, there are of course also inaccuracies in the design energy function, including difficulties in accurately modeling electrostatics and solvation at surfaces, and contributions of conformational entropy of surface side chains that are not taken into account in most design energy functions.
 
-In our analysis of approximately 80 protein structures total, we found that proteins designed with an intermediate amount of backbone flexibility exhibited site-variability patterns most closely resembling that of natural proteins.  However, the optimal range of backbone flexibility was different in the two data sets. Further, even when the overall site variability matched that of natural sequences, the specific amino-acid distributions at individual sites did not match that well, as quantified by the relatively large KL divergence values between natural and designed alignments. Similarly, intermediate design temperatures showed the highest correlation between RSA and site variability (as measured by entropy). However, even at the optimal design temperature ($T \sim 0.3$ for both data sets), the designed proteins exhibited systematically lower correlations than did the natural proteins. Consequently, using current state-of-the-art design algorithms, designed proteins have either surfaces that are too conserved or cores that too variable. We suspect that changes in the design energy function, in particular more accurate estimation of the balance between electrostatics and desolation, will be needed to address this issue. We also see a need for improved flexible-backbone design algorithms that can model larger backbone movements on the surface without disturbing the core backbone as much.
+In our analysis of approximately 80 protein structures total, we found that proteins designed with an intermediate amount of backbone flexibility exhibited site-variability patterns most closely resembling that of natural proteins.  However, the optimal range of backbone flexibility was different in the two data sets. Further, even when the overall site variability matched that of natural sequences, the specific amino-acid distributions at individual sites did not match that well, as quantified by the relatively large KL divergence values between natural and designed alignments. Similarly, intermediate design temperatures showed the highest correlation between RSA and site variability (as measured by entropy). However, even at the optimal design temperature ($T \sim 0.3$ for both data sets), the designed proteins exhibited systematically lower correlations than did the natural proteins. Consequently, using current state-of-the-art design algorithms, designed proteins have either surfaces that are too conserved or cores that too variable. We suspect that changes in the design energy function, in particular more accurate estimation of the balance between electrostatics and desolation, will be needed to address this issue. We also see a need for improved flexible-backbone design algorithms that can model larger backbone movements on the surface without disturbing the core backbone as much. As alternative and improved algorithms design algorithms become available, they should be subjected to similar tests as we have done here, to assess to what extent different algorithms reproduce natural amino-acid frequency and site-variability differences in core versus surface.
 
 
 
@@ -156,51 +167,296 @@ In our analysis of approximately 80 protein structures total, we found that prot
 The authors acknowledge the Texas Advanced Computing Center (TACC) at The University of Texas at Austin for providing HPC resources that have contributed to the research results reported within this paper. 
 %This work was supported in part by NIH grant R01 GM088344 and by DTRA grant HDTRA1-12-C-0007 to C.O.W. and by NSF grants CAREER MCB-0744541 and DBI-1262182 to T.K. 
 
-\bibliographystyle{peerj} %"style
-\bibliography{ProjectBib} %expected file "my refs.bib"
+%\bibliographystyle{peerj} %"style
+%\bibliography{ProjectBib} %expected file "my refs.bib"
+
+\begin{thebibliography}{36}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem[{Bastolla et~al.(2005)Bastolla, Porto, Roman, and
+  Vendruscolo}]{Bastolla2005}
+\textbf{Bastolla U, Porto M, Roman HE, Vendruscolo M}. \textbf{2005}.
+\newblock Principal eigenvector of contact matrices and hydrophobicity profiles
+  in proteins.
+\newblock \emph{Proteins} \textbf{58}:22--30.
+
+\bibitem[{Bloom et~al.(2006)Bloom, Labthavikul, Otey, and
+  Arnold}]{Bloometal2006}
+\textbf{Bloom JD, Labthavikul ST, Otey CR, Arnold FH}. \textbf{2006}.
+\newblock Protein stability promotes evolvability.
+\newblock \emph{Proc. Natl. Acad. Sci. USA} \textbf{103}:5869--5874.
+
+\bibitem[{Bustamante et~al.(2000)Bustamante, Townsend, and
+  Hartl}]{Bustamante2000}
+\textbf{Bustamante CD, Townsend JP, Hartl DL}. \textbf{2000}.
+\newblock Solvent accessibility and purifying selection within proteins of
+  escherichia coli and salmonella enterica.
+\newblock \emph{Mol. Biol. Evol.} \textbf{17}:301--308.
+
+\bibitem[{Chothia and Finkelstein(1990)}]{ChothiaFinkelstein1990}
+\textbf{Chothia C, Finkelstein AV}. \textbf{1990}.
+\newblock The classification and origins of protein folding patterns.
+\newblock \emph{Annu. Rev. Biochem.} \textbf{59}:1007--1039.
+
+\bibitem[{Conant and Stadler(2009)}]{Conant2009}
+\textbf{Conant GC, Stadler PF}. \textbf{2009}.
+\newblock Solvent exposure imparts similar selective pressures across a range
+  of yeast proteins.
+\newblock \emph{Mol. Biol. Evol.} \textbf{26}:1155--1161.
+
+\bibitem[{Drummond and Wilke(2008)}]{Drummond2008}
+\textbf{Drummond DA, Wilke CO}. \textbf{2008}.
+\newblock Mistranslation-induced protein misfolding as a dominant constraint on
+  coding-sequence evolution.
+\newblock \emph{Cell} \textbf{134}:341--352.
+
+\bibitem[{Elcock(2001)}]{Elcock2001}
+\textbf{Elcock A}. \textbf{2001}.
+\newblock Prediction of functionally important residues based solely on the
+  computed energetics of protein structure.
+\newblock \emph{J. Mol Biol.} \textbf{312}:885--896.
+
+\bibitem[{Fleishman et~al.(2011)Fleishman, Whitehead, Ekiert, Dreyfus, Corn,
+  Strauch, Wilson, and Baker}]{Fleishman2011}
+\textbf{Fleishman SJ, Whitehead TA, Ekiert DC, Dreyfus C, Corn JE, Strauch EM,
+  Wilson IA, Baker D}. \textbf{2011}.
+\newblock Computational design of proteins targeting the conserved stem region
+  of influenza hemagglutinin.
+\newblock \emph{Science} \textbf{332}:816--821.
+
+\bibitem[{Franzosa and Xia(2009)}]{Franzosa2009}
+\textbf{Franzosa EA, Xia Y}. \textbf{2009}.
+\newblock Structural determinants of protein evolution are context-sensitive at
+  the residue level.
+\newblock \emph{Mol. Biol. Evol.} \textbf{26}:2387--2395.
+
+\bibitem[{Fraser et~al.(2002)Fraser, Hirsh, Steinmetz, Scharfe, and
+  Feldman}]{Fraser2002}
+\textbf{Fraser H, Hirsh A, Steinmetz L, Scharfe C, Feldman M}. \textbf{2002}.
+\newblock Evolutionary rate in the protein interaction network.
+\newblock \emph{Science} \textbf{296}:750--752.
+
+\bibitem[{Friedland et~al.(2009)Friedland, Lakomek, Griesinger, Meiler, and
+  Kortemme}]{Friedland2009}
+\textbf{Friedland G, Lakomek N, Griesinger C, Meiler J, Kortemme T}.
+  \textbf{2009}.
+\newblock A correspondence between solution-state dynamics of an individual
+  protein and sequence and conformational diversity of its family.
+\newblock \emph{PLOS Comp. Bio.} \textbf{8}:e1000393.
+
+\bibitem[{Gainza et~al.(2012)Gainza, Roberts, and Donald}]{Ganinza2012}
+\textbf{Gainza P, Roberts K, Donald B}. \textbf{2012}.
+\newblock Protein design using continuous rotamers.
+\newblock \emph{PLOS Comp. Bio.} \textbf{8}:e1002335.
+
+\bibitem[{Goldman et~al.(1998)Goldman, Thorne, and Jones}]{Goldman1998}
+\textbf{Goldman N, Thorne JL, Jones DT}. \textbf{1998}.
+\newblock Assessing the impact of secondary structure and solvent accessibility
+  on protein evolution.
+\newblock \emph{Genetics} \textbf{149}:445--458.
+
+\bibitem[{Kabsch and Sander(1983)}]{Kabsch1983}
+\textbf{Kabsch W, Sander C}. \textbf{1983}.
+\newblock Dictionary of protein secondary structure: pattern recognition of
+  hydrogen-bonded and geometrical features.
+\newblock \emph{Biopolymers} \textbf{22}:2577--2637.
+
+\bibitem[{Kuhlman and Baker(2000)}]{Kuhlman2000}
+\textbf{Kuhlman B, Baker D}. \textbf{2000}.
+\newblock Native protein sequences are close to optimal for their structures.
+\newblock \emph{Proc. Natl. Acad. Sci. USA} \textbf{97}:10383--10388.
+
+\bibitem[{Kuhlman et~al.(2003)Kuhlman, Dantas, Ireton, Gabriele, and
+  Stoddard}]{Kuhlman2003}
+\textbf{Kuhlman B, Dantas G, Ireton G, Gabriele V, Stoddard B}. \textbf{2003}.
+\newblock Design of a novel globular protein fold with atomic-level accuracy.
+\newblock \emph{Science} \textbf{302}:1364--1368.
+
+\bibitem[{Lazaridis and Karplus(1999)}]{Lazaridis1999}
+\textbf{Lazaridis T, Karplus M}. \textbf{1999}.
+\newblock Effective energy function for proteins in solution.
+\newblock \emph{Proteins: Struct., Funct., Genet.} \textbf{35}:133--152.
+
+\bibitem[{Leaver-Fay et~al.(2011)Leaver-Fay, Tyka, Lewis, Lange, Thompson,
+  Jacak, Kaufman, Renfrew, Smith, Sheffler, Davis, Cooper, Treuille, Mandell,
+  Richter, Ban, Fleishman, Corn, Kim, Lyskov, Berrondo, Mentzer, Popovi\'c,
+  Havranek, Karanicolas, Das, Meiler, Kortemme, Gray, Kuhlman, Baker, and
+  Bradley}]{LeaverFayetal2011}
+\textbf{Leaver-Fay A, Tyka M, Lewis SM, Lange OF, Thompson J, Jacak R, Kaufman
+  K, Renfrew DP, Smith CA, Sheffler W, Davis IW, Cooper S, Treuille A, Mandell
+  DJ, Richter F, Ban YEA, Fleishman SJ, Corn JE, Kim DE, Lyskov S, Berrondo M,
+  Mentzer S, Popovi\'c Z, Havranek JJ, Karanicolas J, Das R, Meiler J, Kortemme
+  T, Gray JJ, Kuhlman B, Baker D, Bradley P}. \textbf{2011}.
+\newblock {ROSETTA3:} an object-oriented software suite for the simulation and
+  design of macromolecules.
+\newblock \emph{Methods in Enzymology} \textbf{487}:545--574.
+
+\bibitem[{Levy et~al.(2012)Levy, De, and Teichmann}]{Levyetal2012}
+\textbf{Levy ED, De S, Teichmann SA}. \textbf{2012}.
+\newblock Cellular crowding imposes global constraints on the chemistry and
+  evolution of proteomes.
+\newblock \emph{Proc. Natl. Acad. Sci. USA} \textbf{109}:20461--20466.
+
+\bibitem[{Meyer and Wilke(2012)}]{MeyerWilke2012}
+\textbf{Meyer AG, Wilke CO}. \textbf{2012}.
+\newblock Integrating sequence variation and protein structure to identify
+  sites under selection.
+\newblock \emph{Mol. Biol. Evol.} \textbf{30}:36--44.
+
+\bibitem[{Mirny and Shakhnovich(1999)}]{MirnyShakhnovich1999}
+\textbf{Mirny LA, Shakhnovich EI}. \textbf{1999}.
+\newblock Universally conserved positions in protein folds: reading
+  evolutionary signals about stability, folding kinetics and function.
+\newblock \emph{J. Mol. Biol.} \textbf{291}:177--196.
+
+\bibitem[{Moelbert et~al.(2004)Moelbert, Emberly, and Tang}]{Moelbertetal2004}
+\textbf{Moelbert S, Emberly E, Tang C}. \textbf{2004}.
+\newblock Correlation between sequence hydrophobicity and surface-exposure
+  pattern of database proteins.
+\newblock \emph{Protein Science} \textbf{13}:752--762.
+
+\bibitem[{Ollikainen and Kortemme(2013)}]{OllikainenKortemme}
+\textbf{Ollikainen N, Kortemme T}. \textbf{2013}.
+\newblock Computational protein design quantifies structural constraints on
+  amino acid covariation.
+\newblock \emph{PLOS Comp. Biol.} In press.
+
+\bibitem[{Overington et~al.(1992)Overington, Donnelly, Johnson, Sali, and
+  Blundell}]{Overington1992}
+\textbf{Overington J, Donnelly D, Johnson MS, Sali A, Blundell TL}.
+  \textbf{1992}.
+\newblock Environment-specific amino acid substitution tables: tertiary
+  templates and prediction of protein folds.
+\newblock \emph{Protein Sci.} \textbf{1}:216--226.
+
+\bibitem[{Porto et~al.(2004)Porto, Roman, Vendruscolo, and
+  Bastolla}]{Porto2004}
+\textbf{Porto M, Roman HE, Vendruscolo M, Bastolla U}. \textbf{2004}.
+\newblock Prediction of site-specific amino acid distributions and limits of
+  divergent evolutionary changes in protein sequences.
+\newblock \emph{Mol. Biol. Evol.} \textbf{22}:630--638.
+
+\bibitem[{Punta et~al.(2012)Punta, Coggill, Eberhardt, Mistry, Tate, Boursnell,
+  Pang, Forslund, Ceric, Clements, Heger, Holm, Sonnhammer, Eddy, Bateman, and
+  Finn}]{Pfam}
+\textbf{Punta M, Coggill P, Eberhardt R, Mistry J, Tate J, Boursnell C, Pang N,
+  Forslund K, Ceric G, Clements J, Heger A, Holm L, Sonnhammer E, Eddy S,
+  Bateman A, Finn R}. \textbf{2012}.
+\newblock The pfam protein families database.
+\newblock \emph{Nucleic Acids Res.} \textbf{D290--D301}:676--680.
+
+\bibitem[{Ramsey et~al.(2011)Ramsey, Scherrer, Zhou, and Wilke}]{Ramsey2011}
+\textbf{Ramsey DC, Scherrer MP, Zhou T, Wilke CO}. \textbf{2011}.
+\newblock The relationship between relative solvent accessibility and
+  evolutionary rate in protein evolution.
+\newblock \emph{Genetics} \textbf{188}:479--488.
+
+\bibitem[{R\"o{}thlisberger et~al.(2008)R\"o{}thlisberger, Khersonsky,
+  Wollacott, Jiang, DeChancie, Betker, Gallaher, Althoff, Zanghellini, Dym,
+  Albeck, Houk, Tawfik, and Baker}]{Rothlisberger2008}
+\textbf{R\"o{}thlisberger D, Khersonsky O, Wollacott AM, Jiang L, DeChancie J,
+  Betker J, Gallaher JL, Althoff EA, Zanghellini A, Dym O, Albeck S, Houk KN,
+  Tawfik DS, Baker D}. \textbf{2008}.
+\newblock Kemp elimination catalysts by computational enzyme design.
+\newblock \emph{Nature} \textbf{453}:190--195.
+
+\bibitem[{Scherrer et~al.(2012)Scherrer, Meyer, and Wilke}]{Scherreretal2012}
+\textbf{Scherrer MP, Meyer AG, Wilke CO}. \textbf{2012}.
+\newblock Modeling coding-sequence evolution within the context of residue
+  solvent accessibility.
+\newblock \emph{BMC Evol. Biol.} \textbf{12}:179.
+
+\bibitem[{Smith and Kortemme(2008)}]{Smith2008}
+\textbf{Smith CA, Kortemme T}. \textbf{2008}.
+\newblock Backrub-like backbone simulation recapitulates natural protein
+  conformational variability and improves mutant side-chain prediction.
+\newblock \emph{J. Mol. Biol.} \textbf{380}:742--756.
+
+\bibitem[{Smith and Kortemme(2010)}]{Smith2010}
+\textbf{Smith CA, Kortemme T}. \textbf{2010}.
+\newblock Structure-based prediction of the peptide sequence space recognized
+  by natural and sythetic pdz domains.
+\newblock \emph{J. Mol. Biol.} \textbf{402}:460--474.
+
+\bibitem[{Tartaglia et~al.(2007)Tartaglia, Pechmann, Dobson, and
+  Vendruscolo}]{Tartagliaetal2007}
+\textbf{Tartaglia GG, Pechmann S, Dobson CM, Vendruscolo M}. \textbf{2007}.
+\newblock Life on the edge: a link between gene expression levels and
+  aggregation rates of human proteins.
+\newblock \emph{Trends Biochem. Sci.} \textbf{32}:204--206.
+
+\bibitem[{Tien et~al.(2013)Tien, Meyer, Sydykova, Spielman, and Wilke}]{Tien}
+\textbf{Tien MA, Meyer AG, Sydykova DK, Spielman SJ, Wilke CO}. \textbf{2013}.
+\newblock Maximum allowed solvent accessibilites of residues in proteins.
+\newblock \emph{PLOS ONE} in press.
+\newblock Preprint: arXiv 1211.4251.
+
+\bibitem[{Wasserman(2004)}]{Wasserman2004}
+\textbf{Wasserman L}. \textbf{2004}.
+\newblock \emph{All of Statistics: A Concise Course in Statistical Inference}.
+\newblock Springer.
+
+\bibitem[{Yona and Levitt(2002)}]{Yona2002}
+\textbf{Yona G, Levitt M}. \textbf{2002}.
+\newblock Within the twilight zone: A sensitive profile-profile comparison tool
+  based on information theory.
+\newblock \emph{J. Mol. Biol.} \textbf{315}:1257--1275.
+
+\bibitem[{Zarrinpar et~al.(2003)Zarrinpar, Park, and Lim}]{Zarrinpar2003}
+\textbf{Zarrinpar A, Park S, Lim W}. \textbf{2003}.
+\newblock Optimization of specificity in a cellular protein interaction network
+  by negative selection.
+\newblock \emph{Nature} \textbf{426}:676--680.
+
+\end{thebibliography}
 
 \cleardoublepage
 
 \section*{Figures}
 
 \begin{figure}[H]
-%\centerline{\includegraphics[width = 3in]{figures/Mean_Entropy_vs_Temp_Boxplot.pdf}\includegraphics[width = 3in]{figures/Mean_Entropy_vs_Temp_Boxplot_Noah.pdf}}
-\centerline{\includegraphics[width = 6in]{figures/Mean_Entropy_vs_Temp_Combo_Boxplot.pdf}} %\includegraphics[width = 3in]{figures/Mean_Entropy_vs_Temp_Boxplot_Noah.pdf}}
+%\centerline{\includegraphics[width = 6in]{figures/Mean_Entropy_vs_Temp_Combo_Boxplot.pdf}}
 \caption{Mean site entropy for designed and natural proteins. Each boxplot represents the distribution of mean site entropies within the respective dataset (A: yeast proteins; B: protein domains). ``FB'' refers to fixed-backbone design. Temperature values refer to the design temperature used during the Backrub design method. ``NS'' refers to natural sequences. ``Soft'' refers to the Soft design method. We find generally that increased backbone flexibility allows for more site variability. Intermediate temperatures produce site variabilities most similar to those seen in natural sequences. Overall, natural sequences in the protein-domains data set are more variable than are those in the yeast-proteins data set.}
 \label{MeanEntropyComparison}
 \end{figure}
 
 
 \begin{figure}[H]
-\centerline{\includegraphics[width = 5in]{figures/Duncan_Freq_Combo_Plots_06.pdf}}
+%\centerline{\includegraphics[width = 5in]{figures/Duncan_Freq_Combo_Plots_06.pdf}}
 \caption{Amino-acid frequencies in designed and natural proteins. Frequencies were calculated over all sites in all proteins belonging to the yeast-proteins data set. For designed proteins, only flexible-backbone designs with design temperature 0.6 were considered. A: Overall frequencies. B: frequencies at exposed sites (defined as sites with $\text{RSA}>0.05$). C: frequencies at buried sites (defined as sites with $\text{RSA}\leq0.05$).}
 \label{AAFreqsYeastProteins}
 \end{figure}
 
 
 \begin{figure}[H]
-\centerline{\includegraphics[width = 6in]{figures/Mean_KL_vs_Temp_Boxplot.pdf}}
+%\centerline{\includegraphics[width = 6in]{figures/Mean_KL_vs_Temp_Boxplot.pdf}}
 \caption{Mean Kullback-Leibler (KL) divergence for designed and natural proteins, shown for the protein-domain data set. A higher KL divergence indicates that the amino-acid distributions at sites in designed proteins are less similar to the corresponding distributions in the natural proteins. ``FB'' refers to fixed backbone design and ``NS'' refers to the control case where natural sequences are compared to themselves. A: KL divergence calculated from the relative frequencies of the 20 amino acids. B: KL divergence calculated from rank-ordered frequency distributions. The most common amino acid in the reference distribution is compared to the most common amino acid in the focal distribution, the same is done for the second-most common amino acid, and so on, irrespective of the type of amino acids.}
 \label{AADisFig1}
 \end{figure}
 
 
 \begin{figure}[H]
-\centerline{\includegraphics[width = 6in]{figures/Cor_Mean_Entropy_RSA_Combination_Plot.pdf}}
+%\centerline{\includegraphics[width = 6in]{figures/Cor_Mean_Entropy_RSA_Combination_Plot.pdf}}
 \caption{Distributions of correlation coefficients between site entropy and RSA, for the protein-domain data set. ``FB'' indicates fixed-backbone design and ``NS'' indicates natural sequences. A: Distributions represented as boxplots. B: Correlation coefficients for individual proteins. Lines connect identical structures in the different design conditions. The color shading represents the strength of the correlation for the natural sequence alignment. In general, natural proteins display a stronger correlation between site entropy and RSA than designed proteins.}
 \label{Correlation_figure}
 \end{figure}
 
 
 \begin{figure}[H]
-\centerline{\includegraphics[width = 6in]{figures/Mean_Entropy_Position_Lineplot_Combo.pdf}}
+%\centerline{\includegraphics[width = 6in]{figures/Mean_Entropy_Position_Lineplot_Combo.pdf}}
 \caption{Median of the distribution of mean sequence entropies for designed and natural sequences, calculated separately for buried (black), partially buried (blue), and exposed (red) residues (A: yeast proteins; B: protein domains). We defined buried sites as those with $\text{RSA}\leq 0.05$, partially buried as those with $0.05<\text{RSA}\leq0.25$, and exposed as those with $\text{RSA}>0.25$. Dashed lines indicate the corresponding median for natural sequence alignments. Note that for buried (black) and partially buried (blue) residues, the temperatures at which natural site variability and design variability match are comparable. By contrast, for exposed residues, a higher design temperature is required for the design variability to match the natural site variability.}
 \label{Mean_Entropy_Surface_Core}
 \end{figure}
 
 
 \begin{figure}[H]
-\centerline{\includegraphics[width = 6in]{figures/Combo_Mixed_Temp_Correlation_Plot.pdf}}
+%\centerline{\includegraphics[width = 6in]{figures/Combo_Mixed_Temp_Correlation_Plot.pdf}}
 \caption{Distribution of correlation coefficients between RSA and site entropy for hybrid designs and for natural proteins (A: yeast proteins; B: protein domains)."FB'' indicates fixed-backbone design and ``NS'' indicates natural sequences. For the hybrid designs, buried and partially buried sites were taken from sequences designed at one temperature, and exposed sites were taken from sequences designed at a different temperature. For the hybrid designs, the correlation coefficients were similar to those of natural sequences (paired $t$ test,  $P=0.517$ (T = FB, 0.1)  and  $P= 6.78 $ $\times$ $10^{-8}$ (T = 0.03, 0.1) [yeast proteins], $P= 5.19$  $\times$ $10^{-5}$ (T = 0.3, 1.8) and $P= 0.118$ (T = 0.6, 1.8)  [protein domains]).}
 \label{Mixed_RSA_Entropy}
 \end{figure}
